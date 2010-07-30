@@ -86,6 +86,7 @@ calculate_postage_request = CalculatingPostageAPI(
                                from_postal_code="83702",
                                to_postal_code="84301",
                                to_country_code="US",
+                               requesterid=REQUESTER_ID,
                                accountid=ACCOUNT_ID,
                                passphrase=PASSPHRASE,
                                test=True,                                    
