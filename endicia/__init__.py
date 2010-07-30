@@ -11,7 +11,7 @@ Version 5.0 (Build 3826)
 from api import ShippingLabelAPI, BuyingPostageAPI, \
                 ChangingPassPhraseAPI, CalculatingPostageAPI
 from data_structures import FromAddress, ToAddress, \
-    LabelRequest
+    LabelRequest, Element
 
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'

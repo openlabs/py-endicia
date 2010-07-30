@@ -22,6 +22,8 @@ import urllib2
 from lxml import etree
 from lxml.etree import ETXPath
 from endicia.exceptions import RequestError
+from endicia.tools import transform_to_xml
+from endicia.data_structures import Element 
 
 class APIBaseClass(object):
     """
@@ -251,18 +253,7 @@ class ShippingLabelAPI(APIBaseClass):
                 continue
             value = getattr(self, element.lower())
             if value:
-                sub_element = etree.SubElement(labelrequest, element)
-                if type(value) == dict:
-                    #
-                    # If value is dictionary, make it attributes
-                    #
-                    for attr_name, attr_value in value.items():
-                        sub_element.set(attr_name, unicode(attr_value))
-                else:
-                    #
-                    # Make the value the text
-                    #
-                    sub_element.text = unicode(value)
+                transform_to_xml(labelrequest, value, element)
         if as_string:
             return etree.tostring(labelrequest, pretty_print=True)
         else:
@@ -300,24 +291,18 @@ class BuyingPostageAPI(APIBaseClass):
     def to_xml(self, as_string=True):
         recreditrequest = etree.Element("RecreditRequest")
         
-        sub_element = etree.SubElement(recreditrequest,
-                                       'RequesterID')
-        sub_element.text = unicode(self.requesterid)
-        
-        sub_element = etree.SubElement(recreditrequest,
-                                       'RequestID')
-        sub_element.text = unicode(self.requestid)
-        
-        sub_element = etree.SubElement(recreditrequest,
-                                       'CertifiedIntermediary')
-        sub_element2 = etree.SubElement(sub_element, 'AccountID')
-        sub_element2.text = unicode(self.accountid)
-        sub_element2 = etree.SubElement(sub_element, 'PassPhrase')
-        sub_element2.text = unicode(self.passphrase)
-        
-        sub_element = etree.SubElement(recreditrequest,
-                                       'RecreditAmount')
-        sub_element.text = unicode(self.recredit_amount)
+        transform_to_xml(recreditrequest,
+                         self.requestid, 'RequestID')
+        transform_to_xml(recreditrequest,
+                         self.requesterid, 'RequesterID')
+        transform_to_xml(recreditrequest,
+                         [
+                          Element('AccountID', self.accountid),
+                          Element('PassPhrase', self.passphrase),
+                          ],
+                         'CertifiedIntermediary')
+        transform_to_xml(recreditrequest,
+                         self.recredit_amount, 'RecreditAmount')
         if as_string:
             return etree.tostring(recreditrequest, pretty_print=True)
         else:
@@ -353,24 +338,19 @@ class ChangingPassPhraseAPI(APIBaseClass):
     def to_xml(self, as_string=True):
         changepassphraserequest = etree.Element("ChangePassPhraseRequest")
         
-        sub_element = etree.SubElement(changepassphraserequest,
-                                       'RequesterID')
-        sub_element.text = unicode(self.requesterid)
-        
-        sub_element = etree.SubElement(changepassphraserequest,
-                                       'RequestID')
-        sub_element.text = unicode(self.requestid)
-        
-        sub_element = etree.SubElement(changepassphraserequest,
-                                       'CertifiedIntermediary')
-        sub_element2 = etree.SubElement(sub_element, 'AccountID')
-        sub_element2.text = unicode(self.accountid)
-        sub_element2 = etree.SubElement(sub_element, 'PassPhrase')
-        sub_element2.text = unicode(self.passphrase)
-        
-        sub_element = etree.SubElement(changepassphraserequest,
-                                       'NewPassPhrase')
-        sub_element.text = unicode(self.new_pass_phrase)
+        transform_to_xml(changepassphraserequest,
+                         self.requestid, 'RequestID')
+        transform_to_xml(changepassphraserequest,
+                         self.requesterid, 'RequesterID')
+        transform_to_xml(changepassphraserequest,
+                         [
+                          Element('AccountID', self.accountid),
+                          Element('PassPhrase', self.passphrase),
+                          ],
+                         'CertifiedIntermediary')
+        transform_to_xml(changepassphraserequest,
+                         self.new_pass_phrase, 'NewPassPhrase')
+
         if as_string:
             return etree.tostring(changepassphraserequest, pretty_print=True)
         else:
@@ -439,39 +419,25 @@ class CalculatingPostageAPI(APIBaseClass):
     def to_xml(self, as_string=True):
         calculatepostagerequest = etree.Element("PostageRateRequest")
         
-        sub_element = etree.SubElement(calculatepostagerequest,
-                                       'RequesterID')
-        sub_element.text = unicode(self.requesterid)
+        transform_to_xml(calculatepostagerequest,
+                         self.requesterid, 'RequesterID')
+        transform_to_xml(calculatepostagerequest,
+                         [
+                          Element('AccountID', self.accountid),
+                          Element('PassPhrase', self.passphrase),
+                          ],
+                         'CertifiedIntermediary')
         
-        sub_element = etree.SubElement(calculatepostagerequest,
-                                       'CertifiedIntermediary')
-        sub_element2 = etree.SubElement(sub_element, 'AccountID')
-        sub_element2.text = unicode(self.accountid)
-        sub_element2 = etree.SubElement(sub_element, 'PassPhrase')
-        sub_element2.text = unicode(self.passphrase)
         for element in self.valid_elements:
             if not hasattr(self, element.lower()):
-                #
                 #If element is not there then bypass it
-                #
                 continue
             value = getattr(self, element.lower())
-            if value:
-                sub_element = etree.SubElement(calculatepostagerequest, element)
-                if type(value) == dict:
-                    #
-                    # If value is dictionary, make it attributes
-                    #
-                    for attr_name, attr_value in value.items():
-                        sub_element.set(attr_name, unicode(attr_value))
-                else:
-                    #
-                    # Make the value the text
-                    #
-                    sub_element.text = unicode(value)
-        sub_element = etree.SubElement(calculatepostagerequest,
-                                       'ResponseOptions')
-        sub_element.set('PostagePrice', 'TRUE')
+            transform_to_xml(calculatepostagerequest, value, element)
+        
+        transform_to_xml(calculatepostagerequest,
+                         {'PostagePrice':'TRUE'},
+                         'ResponseOptions')
         if as_string:
             return etree.tostring(calculatepostagerequest, pretty_print=True)
         else:

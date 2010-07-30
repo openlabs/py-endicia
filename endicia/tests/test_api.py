@@ -4,10 +4,14 @@ Created on 28 Jul 2010
 @author: sharoonthomas
 '''
 import unittest
-from endicia import ShippingLabelAPI, BuyingPostageAPI, ChangingPassPhraseAPI,\
-                    LabelRequest, FromAddress, ToAddress, CalculatingPostageAPI
+from lxml import etree
+from endicia import ShippingLabelAPI, BuyingPostageAPI, \
+                    ChangingPassPhraseAPI, Element, \
+                    LabelRequest, FromAddress, ToAddress, \
+                    CalculatingPostageAPI
+                    
 from endicia.exceptions import RequestError
-from endicia.tools import parse_response
+from endicia.tools import parse_response, transform_to_xml
 
 REQUESTER_ID = 123456
 ACCOUNT_ID = 123456
@@ -23,7 +27,24 @@ class TestAPI(unittest.TestCase):
     def tearDown(self):
         pass
 
-
+    def test0001_tranformer(self):
+        root = etree.Element("root")
+        sub_element = transform_to_xml(root, "Level1 Text", "Level1")
+        assert etree.tostring(root) == '<root><Level1>Level1 Text</Level1></root>'
+        
+        transform_to_xml(sub_element, {'attribute':'attribute_value'})
+        expected_result = '<root><Level1 attribute="attribute_value">Level1 Text</Level1></root>'
+        assert etree.tostring(root) == expected_result
+        
+        transform_to_xml(sub_element, [
+                                       Element('Level2', 'Level2 Text'),
+                                       Element('Level2', 'Level2 Text'),
+                                       Element('Level2', [
+                                              Element('Level3', 'Level3 Text'),
+                                              Element('Level3', 'Level3 Text'),
+                                                          ])
+                                       ])
+        
     def test0005_label_request(self):
         label_request = LabelRequest()
         shipping_label_api = ShippingLabelAPI(
@@ -41,7 +62,7 @@ class TestAPI(unittest.TestCase):
         #Now try to fetch label
         #
         self.assertRaises(RequestError, shipping_label_api.send_request)
-        print "Error: %s" % shipping_label_api.error
+        print "Excpected Error: %s" % shipping_label_api.error
         from_address = FromAddress(
                                    FromName="John Doe",
                                    ReturnAddress1="123 Main Street",
@@ -67,7 +88,7 @@ class TestAPI(unittest.TestCase):
         response = shipping_label_api.send_request()
         print shipping_label_api.to_xml()
         assert shipping_label_api.success == True
-        parse_response(response, shipping_label_api.namespace)
+        print parse_response(response, shipping_label_api.namespace)
     
     def test0010_recredit_request(self):
         recredit_request_api = BuyingPostageAPI(
@@ -78,9 +99,9 @@ class TestAPI(unittest.TestCase):
                                    passphrase=PASSPHRASE,
                                    test=True,
                                )
-        recredit_request_api.to_xml()
+        print recredit_request_api.to_xml()
         response = recredit_request_api.send_request()
-        parse_response(response, recredit_request_api.namespace)
+        print parse_response(response, recredit_request_api.namespace)
     
     def test0020_change_passphrase_request(self):
         change_passphrase_request_api = ChangingPassPhraseAPI(
@@ -91,9 +112,9 @@ class TestAPI(unittest.TestCase):
                                    passphrase=PASSPHRASE,
                                    test=True,
                                )
-        change_passphrase_request_api.to_xml()
+        print change_passphrase_request_api.to_xml()
         response = change_passphrase_request_api.send_request()
-        parse_response(response, change_passphrase_request_api.namespace)
+        print parse_response(response, change_passphrase_request_api.namespace)
     
     def test0030_calculating_postage_request(self):
         calculate_postage_request = CalculatingPostageAPI(
@@ -105,11 +126,11 @@ class TestAPI(unittest.TestCase):
                                        requesterid=REQUESTER_ID,
                                        accountid=ACCOUNT_ID,
                                        passphrase=PASSPHRASE,
-                                       test=True,                                    
+                                       test=True,
                                     )
-        calculate_postage_request.to_xml()
+        print calculate_postage_request.to_xml()
         response = calculate_postage_request.send_request()
-        parse_response(response, calculate_postage_request.namespace)
+        print parse_response(response, calculate_postage_request.namespace)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

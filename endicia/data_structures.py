@@ -1,6 +1,10 @@
 """
 Various Data structures
 """
+from collections import namedtuple
+
+Element = namedtuple('Element', 'tag data')
+
 class BaseStruct(object):
     """
     Base data structure
