@@ -11,8 +11,18 @@ API Base Class
     .. autoclass:: APIBaseClass
 
         .. automethod:: __init__
+            
+        .. automethod:: to_xml
 
-            Other than the parameters given above, you may also pass the following fields: -
+        .. automethod:: add_data
+
+Shipping Label API
+------------------
+    .. autoclass:: ShippingLabelAPI
+
+        .. automethod:: __init__
+
+			Other than the parameters given above, you may also pass the following fields: -
 
             * labelsize 
             * imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII
@@ -26,15 +36,6 @@ API Base Class
             * origincountry - Text
             * And many others. Keep in mind that while you pass any parameter, keep it in lower case. 
 
-        .. automethod:: to_xml
-
-        .. automethod:: add_data
-
-Shipping Label API
-------------------
-    .. autoclass:: ShippingLabelAPI
-
-        .. automethod:: __init__
 
         .. automethod:: to_xml
 
@@ -64,7 +65,9 @@ Calculating Postage API
 -----------------------
     .. autoclass:: CalculatingPostageAPI
 
+
         .. automethod:: __init__
+
 
         .. automethod:: to_xml
 

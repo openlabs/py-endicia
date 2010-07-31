@@ -23,6 +23,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Endicia API v0.2 documentation" href="index.html" />
+    <link rel="next" title="Additional Parameters" href="attributes.html" />
     <link rel="prev" title="Indices and tables" href="index.html" /> 
   </head>
   <body>
@@ -35,6 +36,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="attributes.html" title="Additional Parameters"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Indices and tables"
              accesskey="P">previous</a> |</li>
@@ -96,20 +100,6 @@ postage account.</li>
 </tr>
 </tbody>
 </table>
-<p>Other than the parameters given above, you may also pass the following fields: -</p>
-<ul class="simple">
-<li>labelsize</li>
-<li>imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII</li>
-<li>imageresolution - 203 (203 dpi) or 300 (300 dpi)</li>
-<li>sundayholidaydelivery - True/False,</li>
-<li>showreturnaddress - True/False,</li>
-<li>stealth - True/False,</li>
-<li>noweekendselivery - True/False,</li>
-<li>trackingnumber - Text,</li>
-<li>insuredvalue - Currency (5.2 format),</li>
-<li>origincountry - Text</li>
-<li>And many others. Keep in mind that while you pass any parameter, keep it in lower case.</li>
-</ul>
 </dd></dl>
 
 <dl class="method">
@@ -162,17 +152,33 @@ partner&#8217;s end-user printing the label
 <li><strong>partner_transaction_id</strong> &#8211; <em>(Text, 25)</em> A unique identifier for the
 partner&#8217;s end-user&#8217;s transaction such as 
 invoice, transaction number, etc.</li>
-<li><strong>mail_class</strong> &#8211; <p>In Domestic, use:
-Express, First, Library Mail, MediaMail, ParcelPost,
-ParcelSelect, Priority, StandardMail</p>
-<p>For International, use: ExpressMailInternational,
+<li><strong>mail_class</strong> &#8211; <dl class="docutils">
+<dt>In Domestic, use:</dt>
+<dd>Express, First, Library Mail, MediaMail, ParcelPost,
+ParcelSelect, Priority, StandardMail<p class="last">For International, use: ExpressMailInternational,
 FirstClassMailInternational, PriorityMailInternational</p>
+</dd>
+</dl>
+<p>Other than the parameters given above, you may also pass the following fields: -</p>
 </li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<ul class="simple">
+<li>labelsize</li>
+<li>imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII</li>
+<li>imageresolution - 203 (203 dpi) or 300 (300 dpi)</li>
+<li>sundayholidaydelivery - True/False,</li>
+<li>showreturnaddress - True/False,</li>
+<li>stealth - True/False,</li>
+<li>noweekendselivery - True/False,</li>
+<li>trackingnumber - Text,</li>
+<li>insuredvalue - Currency (5.2 format),</li>
+<li>origincountry - Text</li>
+<li>And many others. Keep in mind that while you pass any parameter, keep it in lower case.</li>
+</ul>
 </dd></dl>
 
 <dl class="method">
@@ -380,6 +386,9 @@ ToCountry or ToCountryCode.</li>
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Indices and tables</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="attributes.html"
+                        title="next chapter">Additional Parameters</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/endicia.txt"
@@ -411,6 +420,9 @@ ToCountry or ToCountryCode.</li>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="attributes.html" title="Additional Parameters"
+             >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Indices and tables"
              >previous</a> |</li>
