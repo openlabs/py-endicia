@@ -10,6 +10,8 @@ Contents:
 
    endicia.rst
 
+   attributes.rst
+
 Indices and tables
 ==================
 
