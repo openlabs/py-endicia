@@ -2,8 +2,8 @@
 Api for Web-based, on-demand services of the USPS
 provided by Endicia
 
-The description as given by Endicia doc is below:
--------------------------------------------------
+The description as given by Endicia doc is as following:
+
 The Endicia Label Server produces an integrated label image, 
 complete with Stealth (hidden) postage, return addresses, 
 verified delivery addresses, and service barcodes 
@@ -34,6 +34,21 @@ class APIBaseClass(object):
                  test, **kwargs):
         """
         Validates ReqID, AccID and passphrase
+
+        :param requesterid: *(Text, 50)* Requester ID (also called Partner ID) 
+                            uniquely identifies the system making the request.
+                            Endicia assigns this ID.
+
+                            The Test Server does not authenticate the 
+                            RequesterID. Any text value of 1 to 50 characters 
+                            is valid.
+        :param accountid: *(Numeric, 6)* Account ID for the Endicia postage 
+                            account.
+        :param passphrase: *(Text, 64)* Pass Phrase for the Endicia
+                   postage account.
+        :param test: Yes - Use Sample Postage for testing
+
+                     No - Use Real Postage (Default)
         """
         self.requesterid = requesterid
         self.accountid = accountid
@@ -134,24 +149,19 @@ class ShippingLabelAPI(APIBaseClass):
                  **kwargs):
         """
         :param label_request: Label request object
-        :param weight_oz: Weight of the package, in ounces.
-        :param partner_customer_id: A unique identifier for the partner's 
-                                    end-user printing the label (user id)
-        :param partner_transaction_id: A unique identifier for the partner's 
-                                    end-user's transaction such as invoice, 
-                                    transaction number, etc.
-        :param mail_class:  Express 
-                            First 
-                            Library Mail 
-                            MediaMail 
-                            ParcelPost
-                            ParcelSelect
-                            Priority
-                            StandardMail
+        :param weight_oz: *(Numeric, 4.1)* Weight of the package, in ounces.
+        :param partner_customer_id: *(Text, 25)* A unique identifier for the 
+                                    partner's end-user printing the label 
+                                    (user id)
+        :param partner_transaction_id: *(Text, 25)* A unique identifier for the
+                                    partner's end-user's transaction such as 
+                                    invoice, transaction number, etc.
+        :param mail_class:  In Domestic, use:
+                            Express, First, Library Mail, MediaMail, ParcelPost,
+                            ParcelSelect, Priority, StandardMail
                             
-                            ExpressMailInternational
-                            FirstClassMailInternational 
-                            PriorityMailInternational
+                            For International, use: ExpressMailInternational,
+                            FirstClassMailInternational, PriorityMailInternational
         """
         super(ShippingLabelAPI, self).__init__(**kwargs)
         
@@ -280,6 +290,28 @@ class BuyingPostageAPI(APIBaseClass):
                  request_id,
                  recredit_amount,
                  **kwargs):
+        '''
+        :param request_id: *(Text,50)* Request ID to uniquely identify this
+                           Recredit request. This will be returned in response.
+        :param recredit_amount: Amount of postage, in dollars, to add to the
+                                account. Either use a predefined amount from 
+                                the list or enter any value up to 99999.99.
+                                
+                                The minimum amount of postage that can
+                                be purchased is $10. The maximum
+                                amount is based on the settings of the
+                                account.
+
+                                Given predefined amounts are - 10, 25, 50, 
+                                100, 250, 500, 1000, 2500, 5000, 7500, 10000, 
+                                20000. Must be in given in Text.
+
+                                Else in currency any amount, at least $10.00 
+                                and up to $99,999.99, in unit of dollars and 
+                                rounded to the nearest cent.
+        '''
+
+
         super(BuyingPostageAPI, self).__init__(**kwargs)
         
         self.requestid = request_id
@@ -289,6 +321,9 @@ class BuyingPostageAPI(APIBaseClass):
                     "LabelService/EwsLabelService.asmx/BuyPostageXML"
     
     def to_xml(self, as_string=True):
+        """
+        Convert the data To xml
+        """
         recreditrequest = etree.Element("RecreditRequest")
         
         transform_to_xml(recreditrequest,
@@ -327,6 +362,20 @@ class ChangingPassPhraseAPI(APIBaseClass):
                  request_id,
                  new_pass_phrase,
                  **kwargs):
+        '''
+        :param request_id: *(Text-50)* Request ID to uniquely identify this
+                          Recredit request. This will be returned in response.
+        :param new_pass_phrase: *(Text-64)* New Pass Phrase for the Endicia
+                                postage account.Pass Phrase must be at least 5
+                                characters long with a maximum of 64 characters.
+                                For added security, the PassPhrase should be at 
+                                least 10 characters long and include more than 
+                                one word, use at least one uppercase and
+                                lowercase letter, one number and one non-text 
+                                character (e.g. punctuation). A PassPhrase 
+                                which has been used previously will be rejected.
+        '''
+
         super(ChangingPassPhraseAPI, self).__init__(**kwargs)
         
         self.requestid = request_id
@@ -336,6 +385,9 @@ class ChangingPassPhraseAPI(APIBaseClass):
                     "LabelService/EwsLabelService.asmx/ChangePassPhraseXML"
     
     def to_xml(self, as_string=True):
+        """
+        Convert the data To xml
+        """
         changepassphraserequest = etree.Element("ChangePassPhraseRequest")
         
         transform_to_xml(changepassphraserequest,
@@ -369,7 +421,7 @@ class ChangingPassPhraseAPI(APIBaseClass):
 
 class CalculatingPostageAPI(APIBaseClass):
     """
-    calculate the postage and fees for a single mailpiece
+    Calculate the Postage and Fees for a Single Mailpiece
     """
     def __init__(self,
                  mailclass,
@@ -378,6 +430,30 @@ class CalculatingPostageAPI(APIBaseClass):
                  to_postal_code,
                  to_country_code,
                  **kwargs):
+        '''
+        :param mailclass:  In Domestic, use:
+                            Express, First, Library Mail, MediaMail, ParcelPost,
+                            ParcelSelect, Priority, StandardMail
+                            
+                            For International, use: ExpressMailInternational,
+                            FirstClassMailInternational, PriorityMailInternational
+        :param weightoz: *(Numeric, 4.1)*Weight of the package, in ounces.
+        :param from_postal_code: *(Text, 5)* Sender's postal code. The format
+                                 is ZIP5. For Parcel Select and Standard
+                                 Mail, the value of this element contains the 
+                                 zip code of the postal facility specified in 
+                                 EntryFacility.
+        :param to_postal_code: Recipient's postal code.
+                                *(Text, 5)* For Domestic Mail, the format is 
+                                ZIP5 (required).
+                                *(Text, 15)* For International Mail (optional).
+        :param to_country_code: *(Text-2)* Two character country code of the
+                               recipient's country. 
+                               Required for International Mail. Use either 
+                               ToCountry or ToCountryCode.
+
+        '''
+
         super(CalculatingPostageAPI, self).__init__(**kwargs)
         
         self.mailclass = mailclass
@@ -417,6 +493,9 @@ class CalculatingPostageAPI(APIBaseClass):
                     "LabelService/EwsLabelService.asmx/CalculatePostageRateXML"
     
     def to_xml(self, as_string=True):
+        """
+        Convert the data To xml
+        """
         calculatepostagerequest = etree.Element("PostageRateRequest")
         
         transform_to_xml(calculatepostagerequest,
@@ -452,6 +531,3 @@ class CalculatingPostageAPI(APIBaseClass):
             return response
         else:
             raise RequestError(self.error)
-
-
-

@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python - Endicia API &mdash; Endicia API v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Endicia API v0.2 documentation" href="index.html" />
+    <link rel="prev" title="Indices and tables" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Indices and tables"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-api">
+<span id="python-endicia-api"></span><h1>Python - Endicia API<a class="headerlink" href="#module-api" title="Permalink to this headline">¶</a></h1>
+<p>Api for Web-based, on-demand services of the USPS
+provided by Endicia</p>
+<p>The description as given by Endicia doc is as following:</p>
+<p>The Endicia Label Server produces an integrated label image, 
+complete with Stealth (hidden) postage, return addresses, 
+verified delivery addresses, and service barcodes</p>
+<p>(Delivery Confirmation, Signature Confirmation, 
+Certified Mail with optional Electronic Return Receipt, 
+Express Mail, Confirm Services, or customs forms).</p>
+<p>The basic concept around the Endicia Label Server is to provide partners, 
+developers, and integrators with the ability to print US Postal Service 
+pre-paid shipping labels with postage.</p>
+<div class="section" id="api-base-class">
+<h2>API Base Class<a class="headerlink" href="#api-base-class" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<dl class="class">
+<dt id="api.APIBaseClass">
+<em class="property">class </em><tt class="descclassname">api.</tt><tt class="descname">APIBaseClass</tt><big>(</big><em>requesterid</em>, <em>accountid</em>, <em>passphrase</em>, <em>test</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.APIBaseClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class object other models have to inherit</p>
+<dl class="method">
+<dt id="api.APIBaseClass.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>requesterid</em>, <em>accountid</em>, <em>passphrase</em>, <em>test</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.APIBaseClass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates ReqID, AccID and passphrase</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>requesterid</strong> &#8211; <p><em>(Text, 50)</em> Requester ID (also called Partner ID) 
+uniquely identifies the system making the request.
+Endicia assigns this ID.</p>
+<p>The Test Server does not authenticate the 
+RequesterID. Any text value of 1 to 50 characters 
+is valid.</p>
+</li>
+<li><strong>accountid</strong> &#8211; <em>(Numeric, 6)</em> Account ID for the Endicia postage 
+account.</li>
+<li><strong>passphrase</strong> &#8211; <em>(Text, 64)</em> Pass Phrase for the Endicia
+postage account.</li>
+<li><strong>test</strong> &#8211; <p>Yes - Use Sample Postage for testing</p>
+<p>No - Use Real Postage (Default)</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Other than the parameters given above, you may also pass the following fields: -</p>
+<ul class="simple">
+<li>labelsize</li>
+<li>imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII</li>
+<li>imageresolution - 203 (203 dpi) or 300 (300 dpi)</li>
+<li>sundayholidaydelivery - True/False,</li>
+<li>showreturnaddress - True/False,</li>
+<li>stealth - True/False,</li>
+<li>noweekendselivery - True/False,</li>
+<li>trackingnumber - Text,</li>
+<li>insuredvalue - Currency (5.2 format),</li>
+<li>origincountry - Text</li>
+<li>And many others. Keep in mind that while you pass any parameter, keep it in lower case.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.APIBaseClass.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>as_string=True</em><big>)</big><a class="headerlink" href="#api.APIBaseClass.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs XML message to be sent and returns it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.APIBaseClass.add_data">
+<tt class="descname">add_data</tt><big>(</big><em>data</em><big>)</big><a class="headerlink" href="#api.APIBaseClass.add_data" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; dictionary of element and value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</blockquote>
+</div>
+<div class="section" id="shipping-label-api">
+<h2>Shipping Label API<a class="headerlink" href="#shipping-label-api" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<dl class="class">
+<dt id="api.ShippingLabelAPI">
+<em class="property">class </em><tt class="descclassname">api.</tt><tt class="descname">ShippingLabelAPI</tt><big>(</big><em>label_request</em>, <em>weight_oz</em>, <em>partner_customer_id</em>, <em>partner_transaction_id</em>, <em>mail_class='First'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.ShippingLabelAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>To request a shipping label, use the GetPostageLabel or the 
+GetPostageLabelXML Web method of the Endicia Label Server Web Service.</p>
+<dl class="method">
+<dt id="api.ShippingLabelAPI.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>label_request</em>, <em>weight_oz</em>, <em>partner_customer_id</em>, <em>partner_transaction_id</em>, <em>mail_class='First'</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.ShippingLabelAPI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>label_request</strong> &#8211; Label request object</li>
+<li><strong>weight_oz</strong> &#8211; <em>(Numeric, 4.1)</em> Weight of the package, in ounces.</li>
+<li><strong>partner_customer_id</strong> &#8211; <em>(Text, 25)</em> A unique identifier for the 
+partner&#8217;s end-user printing the label 
+(user id)</li>
+<li><strong>partner_transaction_id</strong> &#8211; <em>(Text, 25)</em> A unique identifier for the
+partner&#8217;s end-user&#8217;s transaction such as 
+invoice, transaction number, etc.</li>
+<li><strong>mail_class</strong> &#8211; <p>In Domestic, use:
+Express, First, Library Mail, MediaMail, ParcelPost,
+ParcelSelect, Priority, StandardMail</p>
+<p>For International, use: ExpressMailInternational,
+FirstClassMailInternational, PriorityMailInternational</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.ShippingLabelAPI.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>as_string=True</em><big>)</big><a class="headerlink" href="#api.ShippingLabelAPI.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the data To xml</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.ShippingLabelAPI.send_request">
+<tt class="descname">send_request</tt><big>(</big><big>)</big><a class="headerlink" href="#api.ShippingLabelAPI.send_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the request to the server</p>
+</dd></dl>
+
+</dd></dl>
+
+</blockquote>
+</div>
+<div class="section" id="buying-postage-api">
+<h2>Buying Postage API<a class="headerlink" href="#buying-postage-api" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<dl class="class">
+<dt id="api.BuyingPostageAPI">
+<em class="property">class </em><tt class="descclassname">api.</tt><tt class="descname">BuyingPostageAPI</tt><big>(</big><em>request_id</em>, <em>recredit_amount</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.BuyingPostageAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>To add postage to an account, use the BuyPostage 
+or the BuyPostageXML Web method of the Endicia Label 
+Server Web Service.</p>
+<dl class="method">
+<dt id="api.BuyingPostageAPI.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>request_id</em>, <em>recredit_amount</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.BuyingPostageAPI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request_id</strong> &#8211; <em>(Text,50)</em> Request ID to uniquely identify this
+Recredit request. This will be returned in response.</li>
+<li><strong>recredit_amount</strong> &#8211; <p>Amount of postage, in dollars, to add to the
+account. Either use a predefined amount from 
+the list or enter any value up to 99999.99.</p>
+<p>The minimum amount of postage that can
+be purchased is $10. The maximum
+amount is based on the settings of the
+account.</p>
+<p>Given predefined amounts are - 10, 25, 50, 
+100, 250, 500, 1000, 2500, 5000, 7500, 10000, 
+20000. Must be in given in Text.</p>
+<p>Else in currency any amount, at least $10.00 
+and up to $99,999.99, in unit of dollars and 
+rounded to the nearest cent.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.BuyingPostageAPI.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>as_string=True</em><big>)</big><a class="headerlink" href="#api.BuyingPostageAPI.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the data To xml</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.BuyingPostageAPI.send_request">
+<tt class="descname">send_request</tt><big>(</big><big>)</big><a class="headerlink" href="#api.BuyingPostageAPI.send_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the request to the server</p>
+</dd></dl>
+
+</dd></dl>
+
+</blockquote>
+</div>
+<div class="section" id="changing-passphrase-api">
+<h2>Changing PassPhrase API<a class="headerlink" href="#changing-passphrase-api" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<dl class="class">
+<dt id="api.ChangingPassPhraseAPI">
+<em class="property">class </em><tt class="descclassname">api.</tt><tt class="descname">ChangingPassPhraseAPI</tt><big>(</big><em>request_id</em>, <em>new_pass_phrase</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.ChangingPassPhraseAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>To change the Pass Phrase for an account, use the API</p>
+<dl class="method">
+<dt id="api.ChangingPassPhraseAPI.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>request_id</em>, <em>new_pass_phrase</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.ChangingPassPhraseAPI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>request_id</strong> &#8211; <em>(Text-50)</em> Request ID to uniquely identify this
+Recredit request. This will be returned in response.</li>
+<li><strong>new_pass_phrase</strong> &#8211; <em>(Text-64)</em> New Pass Phrase for the Endicia
+postage account.Pass Phrase must be at least 5
+characters long with a maximum of 64 characters.
+For added security, the PassPhrase should be at 
+least 10 characters long and include more than 
+one word, use at least one uppercase and
+lowercase letter, one number and one non-text 
+character (e.g. punctuation). A PassPhrase 
+which has been used previously will be rejected.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.ChangingPassPhraseAPI.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>as_string=True</em><big>)</big><a class="headerlink" href="#api.ChangingPassPhraseAPI.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the data To xml</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.ChangingPassPhraseAPI.send_request">
+<tt class="descname">send_request</tt><big>(</big><big>)</big><a class="headerlink" href="#api.ChangingPassPhraseAPI.send_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the request to the server</p>
+</dd></dl>
+
+</dd></dl>
+
+</blockquote>
+</div>
+<div class="section" id="calculating-postage-api">
+<h2>Calculating Postage API<a class="headerlink" href="#calculating-postage-api" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<dl class="class">
+<dt id="api.CalculatingPostageAPI">
+<em class="property">class </em><tt class="descclassname">api.</tt><tt class="descname">CalculatingPostageAPI</tt><big>(</big><em>mailclass</em>, <em>weightoz</em>, <em>from_postal_code</em>, <em>to_postal_code</em>, <em>to_country_code</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.CalculatingPostageAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the Postage and Fees for a Single Mailpiece</p>
+<dl class="method">
+<dt id="api.CalculatingPostageAPI.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>mailclass</em>, <em>weightoz</em>, <em>from_postal_code</em>, <em>to_postal_code</em>, <em>to_country_code</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.CalculatingPostageAPI.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mailclass</strong> &#8211; <p>In Domestic, use:
+Express, First, Library Mail, MediaMail, ParcelPost,
+ParcelSelect, Priority, StandardMail</p>
+<p>For International, use: ExpressMailInternational,
+FirstClassMailInternational, PriorityMailInternational</p>
+</li>
+<li><strong>weightoz</strong> &#8211; <a href="#id1"><span class="problematic" id="id2">*</span></a>(Numeric, 4.1)*Weight of the package, in ounces.</li>
+<li><strong>from_postal_code</strong> &#8211; <em>(Text, 5)</em> Sender&#8217;s postal code. The format
+is ZIP5. For Parcel Select and Standard
+Mail, the value of this element contains the 
+zip code of the postal facility specified in 
+EntryFacility.</li>
+<li><strong>to_postal_code</strong> &#8211; Recipient&#8217;s postal code.
+<em>(Text, 5)</em> For Domestic Mail, the format is 
+ZIP5 (required).
+<em>(Text, 15)</em> For International Mail (optional).</li>
+<li><strong>to_country_code</strong> &#8211; <em>(Text-2)</em> Two character country code of the
+recipient&#8217;s country. 
+Required for International Mail. Use either 
+ToCountry or ToCountryCode.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.CalculatingPostageAPI.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>as_string=True</em><big>)</big><a class="headerlink" href="#api.CalculatingPostageAPI.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the data To xml</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.CalculatingPostageAPI.send_request">
+<tt class="descname">send_request</tt><big>(</big><big>)</big><a class="headerlink" href="#api.CalculatingPostageAPI.send_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the request to the server</p>
+</dd></dl>
+
+</dd></dl>
+
+</blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Python - Endicia API</a><ul>
+<li><a class="reference internal" href="#api-base-class">API Base Class</a></li>
+<li><a class="reference internal" href="#shipping-label-api">Shipping Label API</a></li>
+<li><a class="reference internal" href="#buying-postage-api">Buying Postage API</a></li>
+<li><a class="reference internal" href="#changing-passphrase-api">Changing PassPhrase API</a></li>
+<li><a class="reference internal" href="#calculating-postage-api">Calculating Postage API</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Indices and tables</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/endicia.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Indices and tables"
+             >previous</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, OpenLabs Business Solution.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>
