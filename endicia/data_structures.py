@@ -1,23 +1,20 @@
 """
 Various Data structures
-"""
-from collections import namedtuple
 
-"""
 Element is a data structure to represent a HTML tag and its
 value in a simple way.
 
 To use the data structure:
->>> from endicia import Element
->>> name = Element('name','Sharoon Thomas')
->>> name
-Element(tag='name', data='Sharoon Thomas')
->>> age = Element(tag='Age', data=22)
->>> age
-Element(tag='Age', data=22)
 
-For more examples of How element can be used refer to the examples.py
+>>> from endicia import Element
+>>> name = Element(tag='name', data='Sharoon Thomas')
+>>> age = Element(tag='Age', data=22)
+
+For more examples of How element can be used refer to the ``examples.py``
 """
+
+from collections import namedtuple
+
 Element = namedtuple('Element', 'tag data')
 
 class BaseStruct(object):

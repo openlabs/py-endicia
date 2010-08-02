@@ -66,7 +66,7 @@ Buying Postage API
 
         .. automethod:: send_request
 
-        Example of a Changing Passphrase is as follows::
+        Example of a Buying Postage is as follows::
 
             recredit_request_api = BuyingPostageAPI(
                                    request_id='098765',
