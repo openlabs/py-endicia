@@ -3,13 +3,13 @@
 Python - Endicia API
 ********************
 
-
 .. automodule:: api
 
 API Base Class
 --------------
 
     .. autoclass:: APIBaseClass
+
 
         .. automethod:: __init__
             

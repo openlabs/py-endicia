@@ -14,10 +14,6 @@ Contents:
 
    tools.rst
 
-   attri_shippingAPI.rst
-
-   attri_calcpostageAPI.rst
-
 Indices and tables
 ==================
 

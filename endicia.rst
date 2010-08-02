@@ -3,13 +3,13 @@
 Python - Endicia API
 ********************
 
-
 .. automodule:: api
 
 API Base Class
 --------------
 
     .. autoclass:: APIBaseClass
+
 
         .. automethod:: __init__
             
@@ -31,8 +31,6 @@ Shipping Label API
     .. autoclass:: ShippingLabelAPI
 
         .. automethod:: __init__
-
-			Other than the parameters given above, you may also pass some :ref:`additional_param`
 
         .. automethod:: to_xml
 
