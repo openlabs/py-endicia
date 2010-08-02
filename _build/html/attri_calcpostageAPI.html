@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parameters for Calculatin Postage and Fees API &mdash; Endicia API v0.2 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Endicia API v0.2 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="parameters-for-calculatin-postage-and-fees-api">
+<h1>Parameters for Calculatin Postage and Fees API<a class="headerlink" href="#parameters-for-calculatin-postage-and-fees-api" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">RequesterID (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.</p>
+</li>
+<li><p class="first">CertifiedIntermediary (Node) : Certified Intermediary (CI) account authentication information.</p>
+</li>
+<li><p class="first">AccountID (Numeric, 6) : Account ID for the Endicia postage account.</p>
+</li>
+<li><p class="first">PassPhrase (Text, 64) : Pass Phrase for the Endicia postage account.</p>
+</li>
+<li><p class="first">MailClass (Text)</p>
+<blockquote>
+<ul>
+<li><p class="first">Domestic:</p>
+<blockquote>
+<ol class="arabic simple">
+<li>Express : Express Mail</li>
+<li>First : First-Class Mail</li>
+<li>LibraryMail : Library Mail</li>
+<li>MediaMail : Media Mail</li>
+<li>ParcelPost : Parcel Post</li>
+<li>ParcelSelect : Parcel Select</li>
+<li>Priority : Priority Mail</li>
+<li>StandardMail : Standard Mail</li>
+</ol>
+</blockquote>
+</li>
+<li><p class="first">International:</p>
+<blockquote>
+<ol class="arabic simple">
+<li>ExpressMailInternational : Express Mail International</li>
+<li>FirstClassMailInternational : First-Class Mail International</li>
+<li>PriorityMailInternational :  Priority Mail International</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">Pricing (Text)</p>
+<blockquote>
+<ul class="simple">
+<li>CommercialBase : Commercial Base pricing.</li>
+<li>CommercialPlus : Commercial Plus pricing.</li>
+<li>Retail : Retail pricing.</li>
+</ul>
+<p>If this element is not supplied, pricing will be based on the MailClass and any qualified discounts available to AccountID.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If this element is set to CommercialPlus, but the account does not qualify for such pricing, the Web method will return an error.</p>
+</div>
+</blockquote>
+</li>
+<li><p class="first">WeightOz (Numeric, 4.1) : Weight of the package, in ounces.</p>
+</li>
+<li><p class="first">MailpieceShape (Text) : Card / Letter / Flat / Parcel / LargeParcel / IrregularParcel / OversizedParcel / FlatRateEnvelope / FlatRatePaddedEnvelope / SmallFlatRateBox / MediumFlatRateBox / LargeFlatRateBox</p>
+<blockquote>
+<ul class="simple">
+<li>Shape of the mailpiece.</li>
+<li>Starting in May 2009, FlatRateBox has been replaced with MediumFlatRateBox.</li>
+<li>The Flat Rate Padded Envelope is only available to qualifying Priority Mail Commercial Plus customers. The Label Server will return an error if this shape is used with any other pricing.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">MailpieceDimensions (Node):  Dimensions of the mailpiece. Required for calculating Cubic pricing and for Priority Mail mailpieces going to Zones 5-8 which are over 1 cubic foot. Ignored if MailpieceShape is set to either LargeParcel or OversizedParcel. <strong>All values must be in inches.</strong></p>
+<blockquote>
+<ul class="simple">
+<li>Length (Numeric, 3.3) : Length of the mailpiece.</li>
+<li>Width (Numeric, 3.3) : Width of the mailpiece.</li>
+<li>Height (Numeric, 3.3) : Height (or thickness) of the mailpiece.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">AutomationRate (Text)</p>
+<blockquote>
+<ul class="simple">
+<li>TRUE : Use applicable automation rate for selected mail class.</li>
+<li>FALSE : Use retail price. (Default)</li>
+<li>Available only for letter shape mailpiece using First-Class.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">Machinable (Text)</p>
+<blockquote>
+<ul class="simple">
+<li>TRUE : Package is machinable. (Default) Package is non-machinable.</li>
+<li>FALSE : If a Parcel Select mailpiece marked as machinable is over 35 lbs. in weight or its MailpieceShape is set to OversizedParcel, it will automatically be charged the non- machinable rate.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">ServiceLevel (Text)</p>
+</li>
+<li><p class="first">SundayHolidayDelivery (Text) : For Express Mail only:</p>
+<blockquote>
+<ul class="simple">
+<li>TRUE : Request Sunday/Holiday Delivery Service.</li>
+<li>FALSE : Do not deliver on Sunday or holiday. (Default)</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">SortType (Text) : BMC / FiveDigit / MixedBMC / Nonpresorted / Presorted / SCF / SinglePiece / ThreeDigit</p>
+<blockquote>
+<ul class="simple">
+<li>Sort level for applicable mail classes.</li>
+<li>Required for Parcel Select and Standard Mail.</li>
+<li>Defaults to SinglePiece for mailpieces which do not require a sort type.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">Services (Node) : Special Services requested for the package.</p>
+<blockquote>
+<ul>
+<li><p class="first">CertifiedMail (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Certified Mail not requested.</li>
+<li>ON : Certified Mail requested.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">COD (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : COD not requested.</li>
+<li>ON : COD requested.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">DeliveryConfirmation (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Delivery Confirmation not requested. (Default)</li>
+<li>ON : Delivery Confirmation requested.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">ElectronicReturnReceipt (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Electronic Return Receipt not requested. (Default)</li>
+<li>ON : Electronic Return Receipt requested.</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><p class="first">InsuredMail (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : No insurance requested. (Default)</li>
+<li>ON : USPS Insurance requested.</li>
+<li>UspsOnline : USPS Online Insurance requested.</li>
+<li>ENDICIA : Endicia Insurance requested (Maximum insurable value: $10,000)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>USPS Online Insurance is available only for mailpieces with Delivery or Signature Confirmation.</li>
+<li>USPS Insurance is not allowed for International Mail.</li>
+<li>Endicia insurance fee is not included in the postage price. It is billed to your account.</li>
+</ul>
+</div>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><p class="first">RestrictedDelivery (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Restricted Delivery not requested.(Default)</li>
+<li>ON : Restricted Delivery requested.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">ReturnReceipt (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Return Receipt not requested.(Default)</li>
+<li>ON : Return Receipt requested.</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">SignatureConfirmation (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>OFF : Signature Confirmation not requested. (Default)</li>
+<li>ON : Signature Confirmation requested.</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">Value (Currency, 5.2) : Value of the item(s) in the mailpiece</p>
+</li>
+<li><p class="first">CODAmount (Currency, 5.2) : COD amount to collect. Required if COD is requested for the mailpiece.</p>
+</li>
+<li><p class="first">InsuredValue (Currency, 5.2) : Insured value of the mailpiece. Required if insurance or COD is requested for the mailpiece.</p>
+</li>
+<li><p class="first">EntryFacility (Text) : Postal facility where the mail is entered. The zip code of this facility must be specified in POZipCode. Required for Parcel Select and Standard Mail.</p>
+<blockquote>
+<ul class="simple">
+<li>DBMC : Destination BMC</li>
+<li>DDU : Destination Delivery Unit</li>
+<li>DSCF : Destination Sectional Center Facility</li>
+<li>OBMC : Origin BMC</li>
+<li>Other : Other postal facility (Default)</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">FromPostalCode (Text, 5) : Sender‘s postal code. The format is ZIP5. For Parcel Select and Standard Mail, the value of this element contains the zip code of the postal facility specified in EntryFacility. Recipient‘s postal code.</p>
+</li>
+<li><p class="first">ToPostalCode (Text)</p>
+<blockquote>
+<ul class="simple">
+<li>5: For Domestic Mail, the format is ZIP5 (required).</li>
+<li>15: For International Mail (optional).</li>
+</ul>
+</blockquote>
+</li>
+<li><p class="first">ToCountry (Text, 50) : Recipient‘s country. Required for International Mail. Use either ToCountry or ToCountryCode.</p>
+</li>
+<li><p class="first">ToCountryCode (Text, 2) : Two character country code of the recipient’s country. Required for International Mail. Use either ToCountry or ToCountryCode.</p>
+</li>
+<li><p class="first">ShipDate (Date, MM/DD/YYYY) : Date mailpiece is shipped. Required for Express Mail Sunday/Holiday Delivery Service. Ignored for other mail classes.</p>
+</li>
+<li><p class="first">ShipTime (Time, HH:MM AM or HH:MM PM) : Time mailpiece is shipped. Applies only to Express Mail Sunday/Holiday Delivery Service. Ignored for other mail classes. If this element is not supplied, it defaults to 12:01 AM.</p>
+</li>
+<li><p class="first">ResponseOptions(Node) : Optional XML elements to include in the PostageRateResponse.</p>
+<blockquote>
+<ul>
+<li><p class="first">PostagePrice (Attribute)</p>
+<blockquote>
+<ul class="simple">
+<li>TRUE : TRUE means the response contains the PostagePrice node.</li>
+<li>FALSE</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/attri_calcpostageAPI.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2010, OpenLabs Business Solution.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0b2.
+    </div>
+  </body>
+</html>

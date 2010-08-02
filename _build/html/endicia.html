@@ -614,7 +614,6 @@ Allowed characters: A-Z a-z hyphen period space</li>
 <li>CustomsCountry5 (Text, 50)</li>
 </ol>
 </blockquote>
-<p>Other than the parameters given above, you may also pass some <a class="reference internal" href="attri_shippingAPI.html#additional-param"><em>Parameters for Shipping Label API</em></a></p>
 </dd></dl>
 
 <dl class="method">
@@ -677,13 +676,17 @@ the list or enter any value up to 99999.99.</p>
 be purchased is $10. The maximum
 amount is based on the settings of the
 account.</p>
-<p>Given predefined amounts are - 10, 25, 50, 
-100, 250, 500, 1000, 2500, 5000, 7500, 10000, 
-20000. Must be in given in Text.</p>
+<p>Given predefined amounts are - $10, $25, $50, 
+$100, $250, $500, $1000, $2500, $5000, $7500, $10000, 
+$20000. Must be in given in Text.</p>
 <p>Else in currency any amount, at least $10.00 
 and up to $99,999.99, in unit of dollars and 
 rounded to the nearest cent.</p>
 </li>
+<li><strong>RequesterID</strong> &#8211; (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.</li>
+<li><strong>RequestID</strong> &#8211; (Text, 50) : Request ID to uniquely identify this Recredit request. This will be returned in response.</li>
+<li><strong>AccountID</strong> &#8211; (Numeric, 6) : Account ID for the Endicia postage account.</li>
+<li><strong>PassPhrase</strong> &#8211; (Text, 64) : Pass Phrase for the Endicia postage account.</li>
 </ul>
 </td>
 </tr>

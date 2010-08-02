@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Indices and tables &mdash; Endicia API v0.2 documentation</title>
+    <title>Tools &mdash; Endicia API v0.2 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -22,8 +22,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Endicia API v0.2 documentation" href="#" />
-    <link rel="next" title="Python - Endicia API" href="endicia.html" /> 
+    <link rel="top" title="Endicia API v0.2 documentation" href="index.html" />
+    <link rel="next" title="Parameters for Shipping Label API" href="attri_shippingAPI.html" />
+    <link rel="prev" title="Data Structures" href="data_structure.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,9 +37,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="endicia.html" title="Python - Endicia API"
+          <a href="attri_shippingAPI.html" title="Parameters for Shipping Label API"
              accesskey="N">next</a> |</li>
-        <li><a href="#">Endicia API v0.2 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="data_structure.html" title="Data Structures"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -47,34 +51,21 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="endicia.html">Python - Endicia API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="endicia.html#api-base-class">API Base Class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="endicia.html#shipping-label-api">Shipping Label API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="endicia.html#buying-postage-api">Buying Postage API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="endicia.html#changing-passphrase-api">Changing PassPhrase API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="endicia.html#calculating-postage-api">Calculating Postage API</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="data_structure.html">Data Structures</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_structure.html#base-structure">Base Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_structure.html#from-address">From Address</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_structure.html#to-address">To Address</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data_structure.html#label-request">Label Request</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tools.html">Tools</a></li>
-</ul>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
+  <div class="section" id="module-tools">
+<span id="tools"></span><h1>Tools<a class="headerlink" href="#module-tools" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="tools.parse_response">
+<tt class="descclassname">tools.</tt><tt class="descname">parse_response</tt><big>(</big><em>response</em>, <em>namespace=''</em><big>)</big><a class="headerlink" href="#tools.parse_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses XML response as string to readable keys and values</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.transform_to_xml">
+<tt class="descclassname">tools.</tt><tt class="descname">transform_to_xml</tt><big>(</big><em>root</em>, <em>data</em>, <em>name=None</em><big>)</big><a class="headerlink" href="#tools.transform_to_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds data to root XML element</p>
+<p>Returns the mangled data, root or sub_element</p>
+</dd></dl>
+
 </div>
 
 
@@ -83,15 +74,18 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="#">
+            <p class="logo"><a href="index.html">
               <img class="logo" src="_static/logo.png" alt="Logo"/>
             </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="data_structure.html"
+                        title="previous chapter">Data Structures</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="endicia.html"
-                        title="next chapter">Python - Endicia API</a></p>
+  <p class="topless"><a href="attri_shippingAPI.html"
+                        title="next chapter">Parameters for Shipping Label API</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/tools.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -121,9 +115,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="endicia.html" title="Python - Endicia API"
+          <a href="attri_shippingAPI.html" title="Parameters for Shipping Label API"
              >next</a> |</li>
-        <li><a href="#">Endicia API v0.2 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="data_structure.html" title="Data Structures"
+             >previous</a> |</li>
+        <li><a href="index.html">Endicia API v0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

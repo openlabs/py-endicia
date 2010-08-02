@@ -32,8 +32,6 @@ Shipping Label API
 
         .. automethod:: __init__
 
-			Other than the parameters given above, you may also pass some :ref:`additional_param`
-
         .. automethod:: to_xml
 
         .. automethod:: send_request

@@ -716,13 +716,18 @@ class BuyingPostageAPI(APIBaseClass):
                                 amount is based on the settings of the
                                 account.
 
-                                Given predefined amounts are - 10, 25, 50, 
-                                100, 250, 500, 1000, 2500, 5000, 7500, 10000, 
-                                20000. Must be in given in Text.
+                                Given predefined amounts are - $10, $25, $50, 
+                                $100, $250, $500, $1000, $2500, $5000, $7500, $10000, 
+                                $20000. Must be in given in Text.
 
                                 Else in currency any amount, at least $10.00 
                                 and up to $99,999.99, in unit of dollars and 
                                 rounded to the nearest cent.
+
+        :param RequesterID: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.
+        :param RequestID: (Text, 50) : Request ID to uniquely identify this Recredit request. This will be returned in response.
+        :param AccountID: (Numeric, 6) : Account ID for the Endicia postage account.
+        :param PassPhrase: (Text, 64) : Pass Phrase for the Endicia postage account.
         '''
 
 
