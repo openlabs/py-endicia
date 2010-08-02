@@ -1,6 +1,6 @@
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, LabelRequest, \
-                    FromAddress, ToAddress, CalculatingPostageAPI
+                    FromAddress, ToAddress, CalculatingPostageAPI, Element
 from endicia.exceptions import RequestError
 from endicia.tools import parse_response
 
@@ -49,6 +49,21 @@ print shipping_label_api.to_xml()
 
 response = shipping_label_api.send_request()
 parse_response(response, shipping_label_api.namespace)
+"""
+A more complicated example
+"""
+customs_item1 = [
+    Element('Description','My Beautiful Shoes'),
+    Element('Quantity', 1),
+    Element('Weight', 10),
+    Element('Value', 50),
+    ]
+shipping_label_api.add_data({'customsitems':[Element('CustomsItem',
+                                                   customs_item1)]})
+print shipping_label_api.to_xml()
+response = shipping_label_api.send_request()
+parse_response(response, shipping_label_api.namespace)
+
 #
 #Buying postage API
 #

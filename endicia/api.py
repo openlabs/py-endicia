@@ -632,6 +632,7 @@ class ShippingLabelAPI(APIBaseClass):
         self.valid_elements.extend([
                                     'DateAdvance',
                                     'MailpieceShape',
+                                    'CustomsItems',
                                     'MailpieceDimensions',
                                     'Machinable',
                                     'ServiceLevel',
