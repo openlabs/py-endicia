@@ -1,0 +1,35 @@
+.. data_structure: Data Structure
+
+
+Data Structures
+***************
+
+.. automodule:: data_structures
+
+
+Base Structure
+--------------
+	.. autoclass:: BaseStruct
+
+        .. automethod:: __init__
+
+From Address
+------------
+
+	.. autoclass:: FromAddress
+
+        .. automethod:: __init__
+
+To Address
+----------
+
+	.. autoclass:: ToAddress
+
+        .. automethod:: __init__
+
+Label Request
+-------------
+
+	.. autoclass:: LabelRequest
+
+        .. automethod:: __init__

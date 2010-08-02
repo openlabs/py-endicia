@@ -12,6 +12,10 @@ Contents:
 
    attributes.rst
 
+   data_structure.rst
+
+   tools.rst
+
 Indices and tables
 ==================
 

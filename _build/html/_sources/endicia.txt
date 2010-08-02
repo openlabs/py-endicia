@@ -8,6 +8,7 @@ Python - Endicia API
 
 API Base Class
 --------------
+
     .. autoclass:: APIBaseClass
 
         .. automethod:: __init__
@@ -18,6 +19,7 @@ API Base Class
 
 Shipping Label API
 ------------------
+
     .. autoclass:: ShippingLabelAPI
 
         .. automethod:: __init__
@@ -43,6 +45,7 @@ Shipping Label API
 
 Buying Postage API
 ------------------
+
     .. autoclass:: BuyingPostageAPI
 
         .. automethod:: __init__
@@ -53,6 +56,7 @@ Buying Postage API
 
 Changing PassPhrase API
 -----------------------
+
     .. autoclass:: ChangingPassPhraseAPI
 
         .. automethod:: __init__
@@ -63,6 +67,7 @@ Changing PassPhrase API
 
 Calculating Postage API
 -----------------------
+
     .. autoclass:: CalculatingPostageAPI
 
 
@@ -72,5 +77,4 @@ Calculating Postage API
         .. automethod:: to_xml
 
         .. automethod:: send_request
-
 

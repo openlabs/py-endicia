@@ -100,6 +100,3 @@ class LabelRequest(BaseStruct):
                             'ImageRotation':'None',
                             })
         self.__dict__.update(kwargs)
-    
-
-
