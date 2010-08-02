@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Endicia API v0.2 documentation" href="index.html" />
-    <link rel="next" title="Additional Parameters" href="attributes.html" />
+    <link rel="next" title="Data Structures" href="data_structure.html" />
     <link rel="prev" title="Indices and tables" href="index.html" /> 
   </head>
   <body>
@@ -37,7 +37,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="attributes.html" title="Additional Parameters"
+          <a href="data_structure.html" title="Data Structures"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Indices and tables"
@@ -58,8 +58,8 @@ provided by Endicia</p>
 <p>The description as given by Endicia doc is as following:</p>
 <p>The Endicia Label Server produces an integrated label image, 
 complete with Stealth (hidden) postage, return addresses, 
-verified delivery addresses, and service barcodes</p>
-<p>(Delivery Confirmation, Signature Confirmation, 
+verified delivery addresses, and service barcodes 
+(Delivery Confirmation, Signature Confirmation, 
 Certified Mail with optional Electronic Return Receipt, 
 Express Mail, Confirm Services, or customs forms).</p>
 <p>The basic concept around the Endicia Label Server is to provide partners, 
@@ -75,7 +75,7 @@ pre-paid shipping labels with postage.</p>
 <dl class="method">
 <dt id="api.APIBaseClass.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>requesterid</em>, <em>accountid</em>, <em>passphrase</em>, <em>test</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#api.APIBaseClass.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validates ReqID, AccID and passphrase</p>
+<dd><p>Validates RequesterID, AccountID and passphrase</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -124,6 +124,30 @@ postage account.</li>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="api.APIBaseClass.success">
+<tt class="descname">success</tt><big>(</big><big>)</big><a class="headerlink" href="#api.APIBaseClass.success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the transaction was success</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.APIBaseClass.error">
+<tt class="descname">error</tt><big>(</big><big>)</big><a class="headerlink" href="#api.APIBaseClass.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns error if exists</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.APIBaseClass._set_flags">
+<tt class="descname">_set_flags</tt><big>(</big><em>response</em><big>)</big><a class="headerlink" href="#api.APIBaseClass._set_flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets flags if any</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.APIBaseClass.request">
+<tt class="descname">request</tt><big>(</big><em>values</em><big>)</big><a class="headerlink" href="#api.APIBaseClass.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends information to the server and returns the response</p>
+</dd></dl>
+
 </dd></dl>
 
 </blockquote>
@@ -152,33 +176,18 @@ partner&#8217;s end-user printing the label
 <li><strong>partner_transaction_id</strong> &#8211; <em>(Text, 25)</em> A unique identifier for the
 partner&#8217;s end-user&#8217;s transaction such as 
 invoice, transaction number, etc.</li>
-<li><strong>mail_class</strong> &#8211; <dl class="docutils">
-<dt>In Domestic, use:</dt>
-<dd>Express, First, Library Mail, MediaMail, ParcelPost,
-ParcelSelect, Priority, StandardMail<p class="last">For International, use: ExpressMailInternational,
+<li><strong>mail_class</strong> &#8211; <p>In Domestic, use:
+Express, First, Library Mail, MediaMail, ParcelPost,
+ParcelSelect, Priority, StandardMail</p>
+<p>For International, use: ExpressMailInternational,
 FirstClassMailInternational, PriorityMailInternational</p>
-</dd>
-</dl>
-<p>Other than the parameters given above, you may also pass the following fields: -</p>
 </li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li>labelsize</li>
-<li>imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII</li>
-<li>imageresolution - 203 (203 dpi) or 300 (300 dpi)</li>
-<li>sundayholidaydelivery - True/False,</li>
-<li>showreturnaddress - True/False,</li>
-<li>stealth - True/False,</li>
-<li>noweekendselivery - True/False,</li>
-<li>trackingnumber - Text,</li>
-<li>insuredvalue - Currency (5.2 format),</li>
-<li>origincountry - Text</li>
-<li>And many others. Keep in mind that while you pass any parameter, keep it in lower case.</li>
-</ul>
+<p>Other than the parameters given above, you may also pass some <a class="reference internal" href="attri_shippingAPI.html#additional-param"><em>Parameters for Shipping Label API</em></a></p>
 </dd></dl>
 
 <dl class="method">
@@ -193,6 +202,24 @@ FirstClassMailInternational, PriorityMailInternational</p>
 <dd><p>Sends the request to the server</p>
 </dd></dl>
 
+<p>Example of a Shipping Label is as follows:</p>
+<div class="highlight-python"><pre>shipping_label_api = ShippingLabelAPI(
+           label_request=label_request,
+           weight_oz=10,
+           partner_customer_id=1,
+           partner_transaction_id=1020,
+           requesterid=REQUESTER_ID,
+           accountid=ACCOUNT_ID,
+           passphrase=PASSPHRASE,
+           test=True,
+           )
+where
+    REQUESTER_ID = 123456
+    ACCOUNT_ID = 123456
+    PASSPHRASE = "PassPhrase"
+
+    label_request = LabelRequest()</pre>
+</div>
 </dd></dl>
 
 </blockquote>
@@ -249,6 +276,17 @@ rounded to the nearest cent.</p>
 <dd><p>Sends the request to the server</p>
 </dd></dl>
 
+<p>Example of a Changing Passphrase is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">recredit_request_api</span> <span class="o">=</span> <span class="n">BuyingPostageAPI</span><span class="p">(</span>
+                       <span class="n">request_id</span><span class="o">=</span><span class="s">&#39;098765&#39;</span><span class="p">,</span>
+                       <span class="n">recredit_amount</span><span class="o">=</span><span class="mf">500.00</span><span class="p">,</span>
+                       <span class="n">requesterid</span><span class="o">=</span><span class="n">REQUESTER_ID</span><span class="p">,</span>
+                       <span class="n">accountid</span><span class="o">=</span><span class="n">ACCOUNT_ID</span><span class="p">,</span>
+                       <span class="n">passphrase</span><span class="o">=</span><span class="n">PASSPHRASE</span><span class="p">,</span>
+                       <span class="n">test</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </blockquote>
@@ -298,6 +336,17 @@ which has been used previously will be rejected.</li>
 <dd><p>Sends the request to the server</p>
 </dd></dl>
 
+<p>Example of a Changing Passphrase is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">change_pp_api</span> <span class="o">=</span> <span class="n">ChangingPassPhraseAPI</span><span class="p">(</span>
+                   <span class="n">request_id</span><span class="o">=</span><span class="s">&#39;098765&#39;</span><span class="p">,</span>
+                   <span class="n">new_pass_phrase</span><span class="o">=</span><span class="s">&#39;my new password&#39;</span><span class="p">,</span>
+                   <span class="n">requesterid</span><span class="o">=</span><span class="n">REQUESTER_ID</span><span class="p">,</span>
+                   <span class="n">accountid</span><span class="o">=</span><span class="n">ACCOUNT_ID</span><span class="p">,</span>
+                   <span class="n">passphrase</span><span class="o">=</span><span class="n">PASSPHRASE</span><span class="p">,</span>
+                   <span class="n">test</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </blockquote>
@@ -356,6 +405,20 @@ ToCountry or ToCountryCode.</li>
 <dd><p>Sends the request to the server</p>
 </dd></dl>
 
+<p>Example of a Calculating Postage Fees is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">calculate_postage_request</span> <span class="o">=</span> <span class="n">CalculatingPostageAPI</span><span class="p">(</span>
+                               <span class="n">mailclass</span><span class="o">=</span><span class="s">&#39;First&#39;</span><span class="p">,</span>
+                               <span class="n">weightoz</span><span class="o">=</span><span class="mf">10.00</span><span class="p">,</span>
+                               <span class="n">from_postal_code</span><span class="o">=</span><span class="s">&quot;83702&quot;</span><span class="p">,</span>
+                               <span class="n">to_postal_code</span><span class="o">=</span><span class="s">&quot;84301&quot;</span><span class="p">,</span>
+                               <span class="n">to_country_code</span><span class="o">=</span><span class="s">&quot;US&quot;</span><span class="p">,</span>
+                               <span class="n">requesterid</span><span class="o">=</span><span class="n">REQUESTER_ID</span><span class="p">,</span>
+                               <span class="n">accountid</span><span class="o">=</span><span class="n">ACCOUNT_ID</span><span class="p">,</span>
+                               <span class="n">passphrase</span><span class="o">=</span><span class="n">PASSPHRASE</span><span class="p">,</span>
+                               <span class="n">test</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                            <span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </blockquote>
@@ -387,8 +450,8 @@ ToCountry or ToCountryCode.</li>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Indices and tables</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="attributes.html"
-                        title="next chapter">Additional Parameters</a></p>
+  <p class="topless"><a href="data_structure.html"
+                        title="next chapter">Data Structures</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/endicia.txt"
@@ -421,7 +484,7 @@ ToCountry or ToCountryCode.</li>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="attributes.html" title="Additional Parameters"
+          <a href="data_structure.html" title="Data Structures"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Indices and tables"

@@ -7,7 +7,6 @@ The description as given by Endicia doc is as following:
 The Endicia Label Server produces an integrated label image, 
 complete with Stealth (hidden) postage, return addresses, 
 verified delivery addresses, and service barcodes 
-
 (Delivery Confirmation, Signature Confirmation, 
 Certified Mail with optional Electronic Return Receipt, 
 Express Mail, Confirm Services, or customs forms).
@@ -33,7 +32,7 @@ class APIBaseClass(object):
                  accountid, passphrase,
                  test, **kwargs):
         """
-        Validates ReqID, AccID and passphrase
+        Validates RequesterID, AccountID and passphrase
 
         :param requesterid: *(Text, 50)* Requester ID (also called Partner ID) 
                             uniquely identifies the system making the request.

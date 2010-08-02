@@ -10,6 +10,9 @@ class BaseStruct(object):
     Base data structure
     """
     def __init__(self):
+        """
+        Initialise
+        """
         self.keys = None
         
     @property

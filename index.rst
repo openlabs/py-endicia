@@ -10,11 +10,13 @@ Contents:
 
    endicia.rst
 
-   attributes.rst
-
    data_structure.rst
 
    tools.rst
+
+   attri_shippingAPI.rst
+
+   attri_calcpostageAPI.rst
 
 Indices and tables
 ==================

@@ -17,6 +17,14 @@ API Base Class
 
         .. automethod:: add_data
 
+        .. automethod:: success
+
+        .. automethod:: error
+
+        .. automethod:: _set_flags
+
+        .. automethod:: request       
+
 Shipping Label API
 ------------------
 
@@ -24,24 +32,30 @@ Shipping Label API
 
         .. automethod:: __init__
 
-			Other than the parameters given above, you may also pass the following fields: -
-
-            * labelsize 
-            * imageformat - EPL2, GIF, JPEG, PDF, PNG, ZPLII
-            * imageresolution - 203 (203 dpi) or 300 (300 dpi)
-            * sundayholidaydelivery - True/False, 
-            * showreturnaddress - True/False, 
-            * stealth - True/False, 
-            * noweekendselivery - True/False, 
-            * trackingnumber - Text, 
-            * insuredvalue - Currency (5.2 format), 
-            * origincountry - Text
-            * And many others. Keep in mind that while you pass any parameter, keep it in lower case. 
-
+			Other than the parameters given above, you may also pass some :ref:`additional_param`
 
         .. automethod:: to_xml
 
         .. automethod:: send_request
+
+        Example of a Shipping Label is as follows::
+
+            shipping_label_api = ShippingLabelAPI(
+                       label_request=label_request,
+                       weight_oz=10,
+                       partner_customer_id=1,
+                       partner_transaction_id=1020,
+                       requesterid=REQUESTER_ID,
+                       accountid=ACCOUNT_ID,
+                       passphrase=PASSPHRASE,
+                       test=True,
+                       )
+            where 
+                REQUESTER_ID = 123456
+                ACCOUNT_ID = 123456
+                PASSPHRASE = "PassPhrase"
+
+                label_request = LabelRequest()
 
 Buying Postage API
 ------------------
@@ -54,6 +68,17 @@ Buying Postage API
 
         .. automethod:: send_request
 
+        Example of a Changing Passphrase is as follows::
+
+            recredit_request_api = BuyingPostageAPI(
+                                   request_id='098765',
+                                   recredit_amount=500.00,
+                                   requesterid=REQUESTER_ID,
+                                   accountid=ACCOUNT_ID,
+                                   passphrase=PASSPHRASE,
+                                   test=True,
+                                   )
+
 Changing PassPhrase API
 -----------------------
 
@@ -64,6 +89,17 @@ Changing PassPhrase API
         .. automethod:: to_xml
 
         .. automethod:: send_request
+
+        Example of a Changing Passphrase is as follows::
+
+                change_pp_api = ChangingPassPhraseAPI(
+                                   request_id='098765',
+                                   new_pass_phrase='my new password',
+                                   requesterid=REQUESTER_ID,
+                                   accountid=ACCOUNT_ID,
+                                   passphrase=PASSPHRASE,
+                                   test=True,
+                                      )
 
 Calculating Postage API
 -----------------------
@@ -77,4 +113,18 @@ Calculating Postage API
         .. automethod:: to_xml
 
         .. automethod:: send_request
+
+        Example of a Calculating Postage Fees is as follows::
+
+            calculate_postage_request = CalculatingPostageAPI(
+                                           mailclass='First',
+                                           weightoz=10.00,
+                                           from_postal_code="83702",
+                                           to_postal_code="84301",
+                                           to_country_code="US",
+                                           requesterid=REQUESTER_ID,
+                                           accountid=ACCOUNT_ID,
+                                           passphrase=PASSPHRASE,
+                                           test=True,                                    
+                                        )
 
