@@ -31,7 +31,7 @@ class BaseStruct(object):
     def data(self):
         _data = {}
         for key in self.keys:
-            if not getattr(self, key) is None:
+            if hasattr(self, key) and getattr(self, key) is not None:
                 _data[key] = getattr(self, key)
         return _data
 
