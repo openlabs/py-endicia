@@ -14,4 +14,4 @@ from data_structures import FromAddress, ToAddress, \
     LabelRequest, Element
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'

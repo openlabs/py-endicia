@@ -645,6 +645,7 @@ class ShippingLabelAPI(APIBaseClass):
                                     'ValidateAddress',
                                     'SignatureWaiver',
                                     'NoWeekendDelivery',
+                                    'Value',
                                     'InsuredValue',
                                     'CODAmount',
                                     'Description',
