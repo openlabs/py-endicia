@@ -107,11 +107,11 @@ class LabelRequest(BaseStruct):
                      ]
         self.__dict__.update({
                             'Test':'YES',
-                            'LabelType':'Default',
-                            'LabelSubtype':'None',
-                            'LabelSize':'4x6',
-                            'ImageFormat':'PNG',
-                            'ImageResolution':'300',
-                            'ImageRotation':'None',
+                            # 'LabelType':'Default', 
+                            # 'LabelSubtype':'None',
+                            # 'LabelSize':'4x6',
+                            # 'ImageFormat':'PNG',
+                            # 'ImageResolution':'300',
+                            # 'ImageRotation':'None',
                             })
         self.__dict__.update(kwargs)
