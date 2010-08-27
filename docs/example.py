@@ -58,8 +58,19 @@ customs_item1 = [
     Element('Weight', 10),
     Element('Value', 50),
     ]
-shipping_label_api.add_data({'customsitems':[Element('CustomsItem',
-                                                   customs_item1)]})
+customs_item2 = [
+    Element('Description','My Beautiful Dress'),
+    Element('Quantity', 1),
+    Element('Weight', 10),
+    Element('Value', 50),
+    ]
+shipping_label_api.add_data({'customsinfo':[
+            Element('CustomsItems', [
+                    Element('CustomsItem', customs_item1)
+                    Element('CustomsItem', customs_item2)
+                    ]),
+            Element('ContentsType', 'Merchandise')
+]})
 print shipping_label_api.to_xml()
 response = shipping_label_api.send_request()
 parse_response(response, shipping_label_api.namespace)
