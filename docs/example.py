@@ -66,7 +66,7 @@ customs_item2 = [
     ]
 shipping_label_api.add_data({'customsinfo':[
             Element('CustomsItems', [
-                    Element('CustomsItem', customs_item1)
+                    Element('CustomsItem', customs_item1),
                     Element('CustomsItem', customs_item2)
                     ]),
             Element('ContentsType', 'Merchandise')

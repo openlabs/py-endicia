@@ -5,6 +5,7 @@ Created on 30 Aug 2010
 (C) Copyright 2010: Sharoon Thomas
 '''
 import unittest
+import base64
 from lxml import etree
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, Element, \
@@ -81,14 +82,19 @@ class TestInternationalShipping(unittest.TestCase):
             'ValidateAddress':'FALSE',
             'Value':'100.00',
             'Description':'Some Fancy Stuff',
-            'LabelSubtype':'Integrated',
-            'IntegratedFormType':'Form2976'
+#            'LabelSubtype':'Integrated',
+            'CustomsFormType':'Form2976'
             })
     print shipping_label_api.to_xml()
     response = shipping_label_api.send_request()
     assert shipping_label_api.success == True
     parsed_response = parse_response(response, shipping_label_api.namespace)
     print parsed_response.keys()
+    filename = '/tmp/' + parsed_response['TrackingNumber'] + '.gif'
+    f = open(filename, 'wb')
+    f.write(base64.decodestring(parsed_response['Base64LabelImage']))
+    f.close()
+    print "New Label at: %s" % filename
 
 if __name__ == "__main__":
     unittest.main()

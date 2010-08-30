@@ -5,6 +5,7 @@ Created on 28 Jul 2010
 '''
 import unittest
 from lxml import etree
+import base64
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, Element, \
                     LabelRequest, FromAddress, ToAddress, \
@@ -88,7 +89,12 @@ class TestAPI(unittest.TestCase):
         response = shipping_label_api.send_request()
         print shipping_label_api.to_xml()
         assert shipping_label_api.success == True
-        print parse_response(response, shipping_label_api.namespace)
+        res = parse_response(response, shipping_label_api.namespace)
+        filename = '/tmp/' + res['TrackingNumber'] + '.gif'
+        f = open(filename, 'wb')
+        f.write(base64.decodestring(res['Base64LabelImage']))
+        f.close()
+        print "New Label at: %s" % filename
     
     def test0010_recredit_request(self):
         recredit_request_api = BuyingPostageAPI(
