@@ -668,7 +668,6 @@ class ShippingLabelAPI(APIBaseClass):
                                     'Description',
                                     'CustomsFormType',
                                     'IntegratedFormType',
-                                    'CustomsFormType',
                                     'CustomsFormImageFormat',
                                     'CustomsFormImageResolution',
                                     'OriginCountry',
