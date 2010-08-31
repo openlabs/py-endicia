@@ -11,7 +11,7 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-
+# 
 # You should have received a copy of the GNU General Public License
 # along with py-endicia.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -62,9 +62,9 @@ class APIBaseClass(object):
                             account.
         :param passphrase: *(Text, 64)* Pass Phrase for the Endicia
                    postage account.
-        :param test: Yes - Use Sample Postage for testing
+        :param test: Yes - Use Sample Postage for testing (Default)
 
-                     No - Use Real Postage (Default)
+                     No - Use Real Postage
         """
         self.requesterid = requesterid
         self.accountid = accountid
@@ -79,16 +79,16 @@ class APIBaseClass(object):
         self.url = None     #Inherit and modify
         #------------------------------------
         self.required_elements = [
-                                'RequesterID',
-                                'AccountID',
-                                'PassPhrase',
-                                    ]
+            'RequesterID',
+            'AccountID',
+            'PassPhrase',
+            ]
         self.valid_elements = []
         #A flag to be set to say if the transaction was successful
         self.flags = {
-                      'Status':None,
-                      'ErrorMessage':None,
-                      }
+            'Status':None,
+            'ErrorMessage':None,
+            }
         self.response = self.namespace = None
         
     def to_xml(self, as_string=True):
@@ -102,12 +102,12 @@ class APIBaseClass(object):
         :param data: dictionary of element and value
         """
         self.__dict__.update(
-                             dict([
-                                   (key.lower(), value) \
-                                        for (key, value) in data.items()
-                                   ])
-                             )
-    
+            dict([
+                    (key.lower(), value) \
+                        for (key, value) in data.items()
+                    ])
+            )
+        
     @property
     def success(self):
         """
@@ -131,13 +131,13 @@ class APIBaseClass(object):
         xml_result = etree.fromstring(response)
         
         self.flags['Status'] = ETXPath(
-                                       '//%sStatus' % self.namespace
-                                        )(xml_result)[0].text
+            '//%sStatus' % self.namespace
+            )(xml_result)[0].text
         error_message = ETXPath(
-                                 '//%sErrorMessage' % self.namespace
-                                        )(xml_result)
+            '//%sErrorMessage' % self.namespace
+            )(xml_result)
         self.flags['ErrorMessage'] = error_message and \
-                                        error_message[0].text or None
+            error_message[0].text or None
         self.response = xml_result
         return response
     
@@ -1110,6 +1110,71 @@ class CalculatingPostageAPI(APIBaseClass):
         Sends the request to the server
         """
         response = self.request({'postageRateRequestXML':self.to_xml()})
+        if self.success:
+            return response
+        else:
+            raise RequestError(self.error)
+
+
+class AccountStatusAPI(APIBaseClass):
+    """
+    To get the status of an account
+    """
+    def __init__(self,
+                 request_id,
+                 **kwargs):
+        '''
+        :param request_id: ID to uniquely identify this request. (Returned in
+                           response)
+        :param requesterid: *(Text, 50)* Requester ID (also called Partner ID) 
+                            uniquely identifies the system making the request.
+                            Endicia assigns this ID.
+
+        :param accountid: *(Numeric, 6)* Account ID for the Endicia postage 
+                            account.
+        :param passphrase: *(Text, 64)* Pass Phrase for the Endicia
+                   postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
+
+                     No - Use Real Postage 
+        '''
+        super(AccountStatusAPI, self).__init__(**kwargs)
+
+        self.requestid = request_id
+        self.namespace = '{' + self.base_namespace + 'LabelService}'
+        self.url = self.base_url + \
+            "LabelService/EwsLabelService.asmx/GetAccountStatusXML"
+
+    def to_xml(self, as_string=True):
+        """
+        Convert the data to XML
+        """
+        get_account_status_request = etree.Element("AccountStatusRequest")
+        transform_to_xml(
+            get_account_status_request,
+            self.requestid, 'RequestID')
+        transform_to_xml(
+            get_account_status_request,
+            self.requesterid, 'RequesterID')
+        transform_to_xml(
+            get_account_status_request,
+            [
+                Element('AccountID', self.accountid),
+                Element('PassPhrase', self.passphrase),
+                ],
+            'CertifiedIntermediary')
+        if as_string:
+            return etree.tostring(
+                get_account_status_request, pretty_print=True
+                )
+        else:
+            return get_account_status_request
+        
+    def send_request(self):
+        """
+        Sends the request to the server
+        """
+        response = self.request({'accountStatusRequestXML':self.to_xml()})
         if self.success:
             return response
         else:

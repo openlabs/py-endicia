@@ -131,7 +131,19 @@ class TestAPI(unittest.TestCase):
         print calculate_postage_request.to_xml()
         response = calculate_postage_request.send_request()
         print parse_response(response, calculate_postage_request.namespace)
-        
+    
+    def test0040_account_status_request(self):
+        get_account_status_request_api = AccountStatusAPI(
+                                   request_id='098765',
+                                   requesterid=REQUESTER_ID,
+                                   accountid=ACCOUNT_ID,
+                                   passphrase=PASSPHRASE,
+                                   test=True,
+                               )
+        print get_account_status_request_api.to_xml()
+        response = get_account_status_request_api.send_request()
+        print parse_response(response, get_account_status_request_api.namespace)
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
