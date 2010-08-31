@@ -9,7 +9,7 @@ Version 5.0 (Build 3826)
 (c) 2010 - Today Open Labs Business Solutions
 """
 from api import ShippingLabelAPI, BuyingPostageAPI, \
-                ChangingPassPhraseAPI, CalculatingPostageAPI
+                ChangingPassPhraseAPI, CalculatingPostageAPI, AccountStatusAPI
 from data_structures import FromAddress, ToAddress, \
     LabelRequest, Element
 

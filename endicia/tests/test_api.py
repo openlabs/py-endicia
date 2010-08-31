@@ -9,7 +9,7 @@ import base64
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, Element, \
                     LabelRequest, FromAddress, ToAddress, \
-                    CalculatingPostageAPI
+                    CalculatingPostageAPI, AccountStatusAPI
                     
 from endicia.exceptions import RequestError
 from endicia.tools import parse_response, transform_to_xml
