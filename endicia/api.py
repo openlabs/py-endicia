@@ -173,7 +173,7 @@ class ShippingLabelAPI(APIBaseClass):
                                     partner's end-user's transaction such as 
                                     invoice, transaction number, etc.
         :param mail_class:  In Domestic, use:
-                            Express, First, Library Mail, MediaMail, ParcelPost,
+                            Express, First, LibraryMail, MediaMail, ParcelPost,
                             ParcelSelect, Priority, StandardMail
                             
                             For International, use: ExpressMailInternational,
@@ -647,6 +647,10 @@ class ShippingLabelAPI(APIBaseClass):
                                   ])
         self.valid_elements.extend(self.required_elements) 
         self.valid_elements.extend([
+                                    'LabelSubType',
+                                    'CustomsCertify',
+                                    'CustomsSigner',
+                                    'EelPfc',
                                     'DateAdvance',
                                     'MailpieceShape',
                                     'CustomsInfo',

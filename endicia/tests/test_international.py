@@ -33,7 +33,10 @@ class TestInternationalShipping(unittest.TestCase):
          accountid=ACCOUNT_ID,
          passphrase=PASSPHRASE,
          test=True,
-         mail_class='PriorityMailInternational'
+         mail_class='PriorityMailInternational',
+         EelPfc = 'Testing',
+         CustomsCertify = 'TRUE',
+         CustomsSigner = 'John',
          )
     from_address = FromAddress(
         FromName="John Doe",
@@ -77,13 +80,17 @@ class TestInternationalShipping(unittest.TestCase):
                         Element('CustomsItem', customs_item1),
                         Element('CustomsItem', customs_item2)
                         ]),
+                Element('EelPfc', 'Testing'),
                 Element('ContentsType', 'Merchandise')
                 ],
+            'EelPfc': 'Testing',
             'ValidateAddress':'FALSE',
             'Value':'100.00',
-            'Description':'Some Fancy Stuff',
-#            'LabelSubtype':'Integrated',
-            'CustomsFormType':'Form2976'
+            'Description':'Some Fancy Stuffs',
+            'LabelSubtype':'Integrated',
+            'IntegratedFormType':'Form2976',
+            'CustomsCertify':'TRUE',
+            'CustomsSigner':'John',
             })
     print shipping_label_api.to_xml()
     response = shipping_label_api.send_request()
