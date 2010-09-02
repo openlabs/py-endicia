@@ -1,5 +1,5 @@
 # 
-# (c) Copyright 2010: Sharoon Thomas
+# (c) Copyright 2010: Sharoon Thomas, Open Labs Business Solutions
 # 
 # This file is part of py-endicia.
 # 
@@ -178,12 +178,29 @@ class ShippingLabelAPI(APIBaseClass):
                             
                             For International, use: ExpressMailInternational,
                             FirstClassMailInternational, PriorityMailInternational
-        :param Test: (Attribute) - Yes/No
+        :param requesterid: *(Text, 50)* Requester ID (also called Partner ID) 
+                            uniquely identifies the system making the request.
+                            Endicia assigns this ID.
 
-                Yes - Use sample postage for testing.
+                            The Test Server does not authenticate the 
+                            RequesterID. Any text value of 1 to 50 characters 
+                            is valid.
+        :param accountid: *(Numeric, 6)* Account ID for the Endicia postage 
+                            account.
+        :param passphrase: *(Text, 64)* Pass Phrase for the Endicia
+                   postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
 
-                No - Use real postage. (Default)
-
+                     No - Use Real Postage
+                     
+        All the elements mentioned hereafter are sent to the API by using add_data() method.
+        =====================================================================================
+        Example ::  
+                shipping_label_api.add_data(
+                                    {
+                        'LabelSubtype': 'Integrated'
+                                    }
+                        )
 
         :param LabelType: (Attribute)
 
@@ -196,13 +213,17 @@ class ShippingLabelAPI(APIBaseClass):
 			        For more details, contact the Endicia Label Server Team.
 
 	            * Domestic - Create domestic label. Requires use of the LabelSubtype element.
-	            * International - Create international label. When the value of this element is set to Domestic or International, the label will be returned as separate images within the Label node of the LabelRequestResponse XML.
+	            * International - Create international label. 
+	            
+	            When the value of this element is set to Domestic or International, the label will be returned as separate images within the Label node of the LabelRequestResponse XML.
 
 
         :param LabelSubtype: (Attribute) 
 	
 	            * Integrated - Create an integrated label. The integrated form type must be specified in the IntegratedFormType element.
-	            * None - No label subtype (Default). Required when label type is Domestic. If a value for this element is supplied, it must be set to Integrated when label type is Domestic or International.
+	            * None - No label subtype (Default). 
+	              
+	            Required when label type is Domestic. If a value for this element is supplied, it must be set to Integrated when label type is Domestic or International.
 
         :param LabelSize: (Attribute) - 
 
@@ -287,25 +308,24 @@ class ShippingLabelAPI(APIBaseClass):
         :param AutomationRate: (Text)
 
 	        * TRUE		-		Use applicable automation rate for selected mail class.
-	        * FALSE		-		Use retail price. (Default) Available only for letter shape mailpiece using First-Class.
+	        * FALSE		-		Use retail price. (Default) 
+	        
+	        Available only for letter shape mailpiece using First-Class.
 
         :param Machinable: (Text)
 
 	        * TRUE		-		Mailpiece is machinable.(Default)
 	        * FALSE		-		Mailpiece is non-machinable.
-                                If a Parcel Select mailpiece
-                                marked as machinable is over
-                                35 lbs. in weight or its
-                                MailpieceShape is set to
-                                OversizedParcel, it will
-                                automatically be charged the
-                                non-machinable price.
+                                
+            If a Parcel Select mailpiece marked as machinable is over 35 lbs. in weight or its MailpieceShape is set to OversizedParcel, it will automatically be charged the non-machinable price.
 
         :param ServiceLevel: (Text)  
 
             * NextDay        -      Next Day
             * 2ndDay         -      Second Day
-            * POToAddressee  -      Post Office to Addressee Service Applies only to Express Mail.
+            * POToAddressee  -      Post Office to Addressee Service 
+            
+            Applies only to Express Mail.
 
         :param SundayHolidayDelivery: (Text) - For Express Mail only:
 
@@ -313,13 +333,16 @@ class ShippingLabelAPI(APIBaseClass):
             * FALSE - Do not deliver on Sunday or holiday. (Default)
 
         :param SortType: (Text) - BMC/FiveDigit/MixedBMC/Nonpresorted/Presorted/SCF/SinglePiece/ThreeDigit
+        
+            Required for Parcel Select and Standard Mail. Defaults to SinglePiece for mailpieces which do not require a sort type.
+
         :param IncludePostage: (Text) - TRUE/FALSE - Include Postage on the Label or not
         :param ReplyPostage: (Text) - 
 
             * TRUE - Print reply postage on the label which means the Sender's and Recipient's address will be swapped when printing.
             * FALSE - Do not print reply postage.(Default)
 
-              Can only be with label type of Default or DestinationConfirm. Not available for Express Mail, international mail, integrated labels or when Return Receipt is requested.
+            Can only be with label type of Default or DestinationConfirm. Not available for Express Mail, international mail, integrated labels or when Return Receipt is requested.
 
         :param ShowReturnAddress: (Text) 
 
@@ -336,14 +359,23 @@ class ShippingLabelAPI(APIBaseClass):
             * Stealth cannot be used with COD, USPS Insurance, Registered Mail, Automation rate, LabelSize of EnvelopeSize10 and Card shape mailpieces.
             * For Standard Mail, Stealth is turned on.
 
-        :param ValidateAddress: (Text) - TRUE/FALSE - Validate all addresses.
-        :param SignatureWaiver: (Text) - TRUE/FALSE - For Express Mail Only.
+        :param ValidateAddress: (Text) 
+
+            * TRUE - Validate all addresses.(Default)
+            * FALSE - Bypass address validation(requires partner to do Address Validation).
+            
+        :param SignatureWaiver: (Text) - For Express Mail Only.
 
             * TRUE - Request waiver of signature for receipt of mailpiece.
             * FALSE - Request signature for receipt of mailpiece. (Default)
+            
+            Endicia recommends that the value of this element be set to TRUE.
 
+        :param NoWeekendDelivery: (Text) - For Express Mail Only.
 
-        :param NoWeekendDelivery: (Text) - TRUE/FALSE - For Express Mail Only. Saturday Delivery.
+            * TRUE - Request that mailpiece should NOT be delivered on a Saturday.
+            * FALSE - FALSE Request that mailpiece can be delivered on a Saturday (Default)
+            
         :param Services:
 
             * CertifiedMail: (Attribute) - OFF/ON - The default value is ON for CertifiedMail label type; otherwise, it is OFF. 
@@ -361,14 +393,24 @@ class ShippingLabelAPI(APIBaseClass):
                 * ON - USPS Insurance requested (must affix a completed Form 3813 or 3813-P to the mailpiece and take it to the retail USPS counter).
                 * USPSOnline - USPS Online Insurance requested.
                 * Endicia - Endicia Insurance requested (Maximum insurable value: $10,000)
+                
+                USPS Online Insurance is available only for mailpieces with Delivery or Signature Confirmation.
+                
+                USPS insurance is not allowed for International Mail or when Stealth or ReplyPostage is set to TRUE.
+                
+                Endicia insurance fee is not included in the postage price. It is billed to your account.
 
             * RestrictedDelivery: (Attribute) - OFF/ON
             * ReturnReceipt: (Attribute) 
 
                 * OFF  -  Return Receipt not requested.(Default)
-                * ON - Return Receipt requested(must affix a completed Return Receipt Form 3811 to the mailpiece and take it to the retail USPS counter). Can only be used with label type of Default or DestinationConfirm. Not supported for International Mail.
+                * ON - Return Receipt requested(must affix a completed Return Receipt Form 3811 to the mailpiece and take it to the retail USPS counter). 
+                
+                Can only be used with label type of Default or DestinationConfirm. Not supported for International Mail.
 
             * SignatureConfirmation: (Attribute) - OFF/ON
+            
+                Can only be used with label type of Default.
 
         :param TrackingNumber: (Text) 
     
@@ -379,11 +421,15 @@ class ShippingLabelAPI(APIBaseClass):
             This element must not be supplied when label type is Domestic. Not used for international mail.
 
         :param CostCenter: (Numeric, 8) - Cost-center code for accounting purposes.
-        :param Value: (Currency, 5.2) - Value of the MailPiece. When a customs form is requested and the individual customs item elements are not supplied, then this value should be set to the total customs value. Ignored when CustomsInfo is supplied.
+        :param Value: (Currency, 5.2) - Value of the MailPiece. 
+        
+            When a customs form is requested and the individual customs item elements are not supplied, then this value should be set to the total customs value. Ignored when CustomsInfo is supplied.
 
         :param InsuredValue: (Currency, 5.2) - Required if insurance or COD is requested for the mailpiece
         :param CODAmount: (Currency, 5.2) - Required if COD is requested for the mailpiece.
-        :param Description: (Text, 50) Description of the item shipped. Used for authentication by recipient. When requesting an International Mail label or a customs form, a value is required if the LabelRequest XML does not contain any customs declaration elements.
+        :param Description: (Text, 50) Description of the item shipped. Used for authentication by recipient. 
+        
+            When requesting an International Mail label or a customs form, a value is required if the LabelRequest XML does not contain any customs declaration elements.
 
         :param IntegratedFormType: (Text)
 
@@ -410,7 +456,9 @@ class ShippingLabelAPI(APIBaseClass):
 
             * 300 - 300 dpi
 
-        :param OriginCountry: (Text) - Country of Origin of the item. This must be a valid, USPS recognized country. Required for International Mail items or when requesting a customs form. Ignored when CustomsInfo is supplied.
+        :param OriginCountry: (Text) - Country of Origin of the item. This must be a valid, USPS recognized country. 
+            
+            Required for International Mail items or when requesting a customs form. Ignored when CustomsInfo is supplied.
 
         :param ContentsType: (Text) - Documents/Gift/Merchandise/Other/ReturnedGoods/Sample
 
@@ -434,7 +482,9 @@ class ShippingLabelAPI(APIBaseClass):
 
         :param **PartnerTransactionID**: (Text) - A unique identifier for the partner's end-user's transaction such as invoice, transaction number, etc.
 
-        :param BpodClientDunsNumber: (Numeric - 9) - Mailer ID of the partner assigned by USPS. Allows the partner to receive Electronic Return Receipt information from USPS in an extract file uniquely generated for them, provided they have established themselves with USPS as a Bulk Proof of Delivery Client.
+        :param BpodClientDunsNumber: (Numeric - 9) - Mailer ID of the partner assigned by USPS. 
+        
+            Allows the partner to receive Electronic Return Receipt information from USPS in an extract file uniquely generated for them, provided they have established themselves with USPS as a Bulk Proof of Delivery Client.
 
         :param RubberStamp1: (Text, 50) - 	User-supplied text to print on the label.
         :param RubberStamp2: (Text, 50) - 	User-supplied text to print on the label.
@@ -464,6 +514,42 @@ class ShippingLabelAPI(APIBaseClass):
         :param ResponseOptions: (Node) - Optional XML elements to include in the LabelRequestResponse.
 
             * PostagePrice (Text) - TRUE/FALSE - TRUE means the response contains the PostagePrice node.
+
+        :param CustomsInfo: (Node) - Required when using Integrated Labels.
+
+            * ContentsType: (Text) - Documents/Gift/Merchandise/Other/ReturnedGoods/Sample
+            * ContentsExplanation: (Text) - Explanation of the customs items. Required if ContentsType is Other.
+            * RestrictionType: (Text) None/Other/Quarantine/SanitaryPhytosanitaryInspection
+            * RestrictionCommments: (Text, 25) - 
+
+                * None (Default)
+                * Other
+                * Quarantine
+                * SanitaryPhytosanitaryInspection
+
+            * SendersCustomsReference: (Text, 14) - Sender's Customs Reference
+            * ImportersCustomsReference: (Text, 40) - Importer's Customs Reference
+            * LicenseNumber: (Text, 16) - License Number
+            * CertificateNumber: (Text, 12) - Certificate Number
+            * InvoiceNumber: (Text, 15) - Invoice Number
+            * NonDeliveryOption: (Text) - Abondon / Return (Default)
+            * InsuredNumber: (Text, 13) - *For Future Use*
+            * EelPfc: (Text, 35) - 
+
+                * Exemption or Exclusion Legend (EEL) or a Proof of Filing Citation (PFC).
+                * Required for shipments to an international destination or to an overseas U.S. Territory.
+                * It is recommended to supply a value for this element as the USPS will likely require it in the near future.
+
+            * **CustomsItems**: (Node) - [1 .. 30]
+
+                * **Description** (Text, 30) - Description of the customs item.
+                * **Quantity** (Numeric, 3) - Quantity of the customs item. Must be greater than zero.
+                * **Weight**  (Numeric, 4) - Weight of the customs item. Must be specified in whole ounces and greater than zero and cannot exceed 1120 ounces (70 pounds).
+                * **Value** (Currency, 5.2) - Value of the customs item. Must be greater than zero.
+                * HSTariffNumber (Text, 6) - 6-digit HS tariff number.
+                * CountryOfOrigin (Text, 2) - Two character country code of the country where the customs items originated. 
+
+        **The elements mentioned below are not supplied directly but via *FromAddress* and *ToAddress* Methods**
 
         :param FromName: (Text, 47) - Either FromName or FromCompany must contain a value. For customs forms, this element must contain at least two words.
 
@@ -523,70 +609,43 @@ class ShippingLabelAPI(APIBaseClass):
             * 30 For International mail, up to 30 digits with no punctuation.
 
         :param ToEMail: (Text, 64) - E-mail address of recipient.
-        :param CustomsInfo: (Node) - Required when using Integrated Labels.
-
-        :param ContentsType: (Text) - Documents/Gift/Merchandise/Other/ReturnedGoods/Sample
-        :param ContentsExplanation: (Text) - Explanation of the customs items. Required if ContentsType is Other.
-        :param RestrictionType: (Text) None/Other/Quarantine/SanitaryPhytosanitaryInspection
-        :param RestrictionCommments: (Text, 25) - 
-
-            * None (Default)
-            * Other
-            * Quarantine
-            * SanitaryPhytosanitaryInspection
-
-        :param SendersCustomsReference: (Text, 14) - Sender's Customs Reference
-        :param ImportersCustomsReference: (Text, 40) - Importer's Customs Reference
-        :param LicenseNumber: (Text, 16) - License Number
-        :param CertificateNumber: (Text, 12) - Certificate Number
-        :param InvoiceNumber: (Text, 15) - Invoice Number
-        :param NonDeliveryOption: (Text) - Abondon / Return (Default)
-        :param InsuredNumber: (Text, 13) - *For Future Use*
-        :param EelPfc: (Text, 35) - 
-
-            * Exemption or Exclusion Legend (EEL) or a Proof of Filing Citation (PFC).
-            * Required for shipments to an international destination or to an overseas U.S. Territory.
-            * It is recommended to supply a value for this element as the USPS will likely require it in the near future.
-
-        :param **CustomsItems**: (Node) - [1 .. 30]
-
-            * **Description** (Text, 30) - Description of the customs item.
-            * **Quantity** (Numeric, 3) - Quantity of the customs item. Must be greater than zero.
-            * **Weight**  (Numeric, 4) - Weight of the customs item. Must be specified in whole ounces and greater than zero and cannot exceed 1120 ounces (70 pounds).
-            * **Value** (Currency, 5.2) - Value of the customs item. Must be greater than zero.
-            * HSTariffNumber (Text, 6) - 6-digit HS tariff number.
-            * CountryOfOrigin (Text, 2) - Two character country code of the country where the customs items originated. 
-
+        
         **The following five sets of customs item elements are ignored when CustomsInfo is supplied.**
 
+		    Set 1
+		    
 		    #. CustomsDescription1 (Text, 50)
 		    #. CustomsQuantity1 (Numeric, 8)
 		    #. CustomsWeight1 (Numeric, 4)
 		    #. CustomsValue1 (Currency, 5.2)
 		    #. CustomsCountry1 (Text, 50)
 
-
+            Set 2
+            
 		    #. CustomsDescription2 (Text, 50)
 		    #. CustomsQuantity2 (Numeric, 8)
 		    #. CustomsWeight2 (Numeric, 4)
 		    #. CustomsValue2 (Currency, 5.2)
 		    #. CustomsCountry2 (Text, 50)
 
-
+            Set 3
+            
 		    #. CustomsDescription3 (Text, 50)
 		    #. CustomsQuantity3 (Numeric, 8)
 		    #. CustomsWeight3 (Numeric, 4)
 		    #. CustomsValue3 (Currency, 5.2)
 		    #. CustomsCountry3 (Text, 50)
 
-
+            Set 4
+            
 		    #. CustomsDescription4 (Text, 50)
 		    #. CustomsQuantity4 (Numeric, 8)
 		    #. CustomsWeight4 (Numeric, 4)
 		    #. CustomsValue4 (Currency, 5.2)
 		    #. CustomsCountry4 (Text, 50)
 
-
+            Set 5
+            
 		    #. CustomsDescription5 (Text, 50)
 		    #. CustomsQuantity5 (Numeric, 8)
 		    #. CustomsWeight5 (Numeric, 4)
@@ -759,13 +818,13 @@ class BuyingPostageAPI(APIBaseClass):
                                 and up to $99,999.99, in unit of dollars and 
                                 rounded to the nearest cent.
 
-        :param RequesterID: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.
-        :param RequestID: (Text, 50) : Request ID to uniquely identify this Recredit request. This will be returned in response.
-        :param AccountID: (Numeric, 6) : Account ID for the Endicia postage account.
-        :param PassPhrase: (Text, 64) : Pass Phrase for the Endicia postage account.
+        :param requesterid: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.    
+        :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
+        :param passphrase: (Text, 64) : Pass Phrase for the Endicia postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
+
+                     No - Use Real Postage
         '''
-
-
         super(BuyingPostageAPI, self).__init__(**kwargs)
         
         self.requestid = request_id
@@ -828,6 +887,12 @@ class ChangingPassPhraseAPI(APIBaseClass):
                                 lowercase letter, one number and one non-text 
                                 character (e.g. punctuation). A PassPhrase 
                                 which has been used previously will be rejected.
+        :param requesterid: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.    
+        :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
+        :param passphrase: (Text, 64) : Pass Phrase for the Endicia postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
+
+                     No - Use Real Postage
         '''
 
         super(ChangingPassPhraseAPI, self).__init__(**kwargs)
@@ -887,14 +952,8 @@ class CalculatingPostageAPI(APIBaseClass):
         '''
 
         :param requesterid: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.
-        :param CertifiedIntermediary: (Node) : Certified Intermediary (CI) account authentication information.
-        :param AccountID: (Numeric, 6) : Account ID for the Endicia postage account.
-        :param PassPhrase: (Text, 64) : Pass Phrase for the Endicia postage account.
-        :param RequesterID: (Text, 50) : Requester ID (also called Partner ID) is used to uniquely identify the system making the request. This ID is assigned by Endicia.
-        :param CertifiedIntermediary: (Node) : Certified Intermediary (CI) account authentication information.
-        :param AccountID: (Numeric, 6) : Account ID for the Endicia postage account.
-        :param PassPhrase: (Text, 64) : Pass Phrase for the Endicia postage account.
-        :param MailClass: (Text)
+        
+        :param mailclass: (Text)
 
             * Domestic:
 
@@ -912,7 +971,31 @@ class CalculatingPostageAPI(APIBaseClass):
                 #. ExpressMailInternational : Express Mail International
                 #. FirstClassMailInternational : First-Class Mail International
                 #. PriorityMailInternational :  Priority Mail International
+        
+        :param weightoz: (Numeric, 4.1) : Weight of the package, in ounces.
+        
+        :param from_postal_code: (Text, 5) : Sender's postal code. The format is ZIP5. For Parcel Select and Standard Mail, the value of this element contains the zip code of the postal facility specified in EntryFacility. Recipient's postal code.
 
+        :param to_postal_code: (Text)
+
+            * 5: For Domestic Mail, the format is ZIP5 (required).
+            * 15: For International Mail (optional).
+        
+        :param to_country_code: (Text, 2) : Two character country code of the recipient's country. Required for International Mail. Use either ToCountry or ToCountryCode.
+           
+        All the elements mentioned hereafter are sent to the API by using add_data() method.
+        =====================================================================================
+        Example ::  
+                shipping_label_api.add_data(
+                                    {
+                        'Pricing': 'CommercialBase'
+                                    }
+                        )
+                        
+        :param CertifiedIntermediary: (Node) : Certified Intermediary (CI) account authentication information.
+            * AccountID: (Numeric, 6) : Account ID for the Endicia postage account.
+            * PassPhrase: (Text, 64) : Pass Phrase for the Endicia postage account.    
+        
         :param Pricing: (Text)
 
             * CommercialBase : Commercial Base pricing.
@@ -923,8 +1006,7 @@ class CalculatingPostageAPI(APIBaseClass):
             
             .. note::
                 If this element is set to CommercialPlus, but the account does not qualify for such pricing, the Web method will return an error.
-
-        :param WeightOz: (Numeric, 4.1) : Weight of the package, in ounces.
+        
         :param MailpieceShape: (Text) : Card / Letter / Flat / Parcel / LargeParcel / IrregularParcel / OversizedParcel / FlatRateEnvelope / FlatRatePaddedEnvelope / SmallFlatRateBox / MediumFlatRateBox / LargeFlatRateBox 
 
             * Shape of the mailpiece.
@@ -949,6 +1031,7 @@ class CalculatingPostageAPI(APIBaseClass):
             * FALSE : If a Parcel Select mailpiece marked as machinable is over 35 lbs. in weight or its MailpieceShape is set to OversizedParcel, it will automatically be charged the non- machinable rate.
                                           
         :param ServiceLevel: (Text)
+        
         :param SundayHolidayDelivery: (Text) : For Express Mail only:
 
             * TRUE : Request Sunday/Holiday Delivery Service.
@@ -1019,16 +1102,9 @@ class CalculatingPostageAPI(APIBaseClass):
             * DSCF : Destination Sectional Center Facility
             * OBMC : Origin BMC
             * Other : Other postal facility (Default)
-
-        :param FromPostalCode: (Text, 5) : Sender's postal code. The format is ZIP5. For Parcel Select and Standard Mail, the value of this element contains the zip code of the postal facility specified in EntryFacility. Recipient's postal code.
-
-        :param ToPostalCode: (Text)
-
-            * 5: For Domestic Mail, the format is ZIP5 (required).
-            * 15: For International Mail (optional).
-
+        
         :param ToCountry: (Text, 50) : Recipient's country. Required for International Mail. Use either ToCountry or ToCountryCode.
-        :param ToCountryCode: (Text, 2) : Two character country code of the recipient's country. Required for International Mail. Use either ToCountry or ToCountryCode.
+        
         :param ShipDate: (Date, MM/DD/YYYY) : Date mailpiece is shipped. Required for Express Mail Sunday/Holiday Delivery Service. Ignored for other mail classes.
         :param ShipTime: (Time, HH:MM AM or HH:MM PM) : Time mailpiece is shipped. Applies only to Express Mail Sunday/Holiday Delivery Service. Ignored for other mail classes. If this element is not supplied, it defaults to 12:01 AM.
 
@@ -1038,9 +1114,7 @@ class CalculatingPostageAPI(APIBaseClass):
 
                 * TRUE : TRUE means the response contains the PostagePrice node.
                 * FALSE
-
         '''
-
         super(CalculatingPostageAPI, self).__init__(**kwargs)
         
         self.mailclass = mailclass

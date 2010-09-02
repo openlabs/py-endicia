@@ -1,7 +1,7 @@
 '''
 Created on 28 Jul 2010
 
-@author: sharoonthomas
+@author: Sharoon Thomas, Open Labs Business Solutions
 '''
 import unittest
 from lxml import etree

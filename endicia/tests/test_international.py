@@ -2,7 +2,7 @@
 Created on 30 Aug 2010
 
 @author: sharoonthomas
-(C) Copyright 2010: Sharoon Thomas
+(C) Copyright 2010: Sharoon Thomas, Open Labs Business Solutions
 '''
 import unittest
 import base64
