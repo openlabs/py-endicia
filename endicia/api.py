@@ -74,8 +74,8 @@ class APIBaseClass(object):
             self.base_url = 'https://www.envmgr.com/'
             self.base_namespace = 'www.envmgr.com/' 
         else:
-            self.base_url = 'http://www.endicia.com/'
-            self.base_namespace = 'www.endicia.com/'
+            self.base_url = 'http://LabelServer.endicia.com/'
+            self.base_namespace = 'LabelServer.endicia.com/'
         self.url = None     #Inherit and modify
         #------------------------------------
         self.required_elements = [
