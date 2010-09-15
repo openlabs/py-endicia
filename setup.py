@@ -32,6 +32,6 @@ setup(
         'Topic :: Office/Business',
     ],
     license='GPL-3',
-    install_requires=[],
+    install_requires=['lxml'],
     test_suite='endicia.tests',
 )
