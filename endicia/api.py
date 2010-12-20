@@ -739,24 +739,27 @@ class ShippingLabelAPI(APIBaseClass):
                                     'NonDeliveryOption',
                                     'ReferenceID',
 
-                                     'FromName',
-                                     'FromCompany',
-                                     'ReturnAddress2',
-                                     'ReturnAddress3',
-                                     'ReturnAddress4',
-                                     'FromPhone',
-                                     'FromEMail'
+                                    'FromName',
+                                    'FromCompany',
+                                    'ReturnAddress2',
+                                    'ReturnAddress3',
+                                    'ReturnAddress4',
+                                    'FromPhone',
+                                    'FromEMail'
 
-                                     'ToName',
-                                     'ToCompany',
-                                     'ToCountry',
-                                     'ToCountryCode',
-                                     'ToPhone',
-                                     'ToEMail'
+                                    'ToName',
+                                    'ToCompany',
+                                    'ToCountry',
+                                    'ToCountryCode',
+                                    'ToPhone',
+                                    'ToEMail',
+                                    'ToAddress2',
+                                    'ToAddress3',
                                      ]
         )
         self.namespace = '{' + self.base_namespace + 'LabelService}'
-        self.url = self.base_url + "LabelService/EwsLabelService.asmx/GetPostageLabelXML"
+        self.url = self.base_url + \
+            "LabelService/EwsLabelService.asmx/GetPostageLabelXML"
         
     def to_xml(self, as_string=True):
         """
