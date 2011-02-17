@@ -1,0 +1,14 @@
+setup.py
+endicia/__init__.py
+endicia/api.py
+endicia/data_structures.py
+endicia/exceptions.py
+endicia/tools.py
+endicia.egg-info/PKG-INFO
+endicia.egg-info/SOURCES.txt
+endicia.egg-info/dependency_links.txt
+endicia.egg-info/requires.txt
+endicia.egg-info/top_level.txt
+endicia/tests/__init__.py
+endicia/tests/test_api.py
+endicia/tests/test_international.py

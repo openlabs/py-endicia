@@ -21,11 +21,12 @@ def parse_images(response, namespace=''):
     xml_result = etree.fromstring(response)
     label = xml_result.find('%sLabel' % namespace)
     if label is not None:
+        print "Labels:", label, label.getchildren()
         images.extend([l.text for l in label.getchildren()])
     else:
         image = xml_result.find('%sBase64LabelImage' % namespace)
         if image:
-            images.append(image.text)
+            images.append(image)
     return images
 
 def transform_to_xml(root, data, name=None):
