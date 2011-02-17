@@ -12,6 +12,22 @@ def parse_response(response, namespace=''):
         response_dict[element.tag.replace(namespace, '')] = element.text
     return response_dict
 
+def parse_images(response, namespace=''):
+    """
+    A special parser for use only with the shipping response to get 
+    the images alone
+    """
+    images = []
+    xml_result = etree.fromstring(response)
+    label = xml_result.find('%sLabel' % namespace)
+    if label is not None:
+        images.extend([l.text for l in label.getchildren()])
+    else:
+        image = xml_result.find('%sBase64LabelImage' % namespace)
+        if image:
+            images.append(image.text)
+    return images
+
 def transform_to_xml(root, data, name=None):
     """
     Adds data to root XML element
