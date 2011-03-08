@@ -1264,8 +1264,8 @@ class AccountStatusAPI(APIBaseClass):
 class RefundRequestAPI(APIBaseClass):
     "To cancel a shipment and request refund for it"
     def __init__(self, 
-                 picnumber,
-                 #production_url,
+                 pic_number,
+                 production_url="",
                  **kwargs):
         '''
         :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
@@ -1280,35 +1280,35 @@ Number)
         '''
         super(RefundRequestAPI, self).__init__(**kwargs)
 
-        self.picnumber = picnumber
+        self.pic_number = pic_number
         self.namespace = '{' + self.base_namespace + 'LabelService}'
-        #self.url = self.base_url + \
-         #           "LabelService/EwsLabelService.asmx"
-        #self.url = self.production_url
-        self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
+        if production_url:
+            self.url = self.production_url
+        else:
+            self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
 
     def to_xml(self, as_string=True):
         """
         Convert the data to XML
         """
-        refundrequest = etree.Element("RefundRequest")
+        refund_request = etree.Element("RefundRequest")
 
-        transform_to_xml(refundrequest,
+        transform_to_xml(refund_request,
                          self.accountid, 'AccountID')
-        transform_to_xml(refundrequest,
+        transform_to_xml(refund_request,
                          self.passphrase, 'PassPhrase')
-        transform_to_xml(refundrequest,
+        transform_to_xml(refund_request,
                          self.test, 'Test')
 
-        transform_to_xml(refundrequest,
+        transform_to_xml(refund_request,
                          [
-                          Element('PICNumber', self.picnumber),
+                          Element('PICNumber', self.pic_number),
                           ],
                          'RefundList')
         if as_string:
-            return etree.tostring(refundrequest, pretty_print=True)
+            return etree.tostring(refund_request, pretty_print=True)
         else:
-            return refundrequest
+            return refund_request
 
     def send_request(self):
         """
@@ -1326,8 +1326,8 @@ Number)
 class SCANFormAPI(APIBaseClass):
     "To allow usage of SCAN service"
     def __init__(self, 
-                 picnumber,
-                 #production_url,
+                 pic_number,
+                 production_url="",
                  **kwargs):
         '''
         :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
@@ -1342,35 +1342,35 @@ Number)
         '''
         super(SCANFormAPI, self).__init__(**kwargs)
 
-        self.picnumber = picnumber
+        self.pic_number = pic_number
         self.namespace = '{' + self.base_namespace + 'LabelService}'
-        #self.url = self.base_url + \
-         #           "LabelService/EwsLabelService.asmx"
-        #self.url = self.production_url
-        self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
+        if production_url:
+            self.url = self.production_url
+        else:
+            self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
 
     def to_xml(self, as_string=True):
         """
         Convert the data to XML
         """
-        scanrequest = etree.Element("SCANRequest")
+        scan_request = etree.Element("SCANRequest")
 
-        transform_to_xml(scanrequest,
+        transform_to_xml(scan_request,
                          self.accountid, 'AccountID')
-        transform_to_xml(scanrequest,
+        transform_to_xml(scan_request,
                          self.passphrase, 'PassPhrase')
-        transform_to_xml(scanrequest,
+        transform_to_xml(scan_request,
                          self.test, 'Test')
 
-        transform_to_xml(scanrequest,
+        transform_to_xml(scan_request,
                          [
-                          Element('PICNumber', self.picnumber),
+                          Element('PICNumber', self.pic_number),
                           ],
                          'SCANList')
         if as_string:
-            return etree.tostring(scanrequest, pretty_print=True)
+            return etree.tostring(scan_request, pretty_print=True)
         else:
-            return scanrequest
+            return scan_request
 
     def send_request(self):
         """

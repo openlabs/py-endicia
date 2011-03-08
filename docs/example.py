@@ -81,7 +81,7 @@ f = open(filename, 'wb')
 f.write(base64.decodestring(xyz['Base64LabelImage']))
 f.close()
 print "New Label at: %s" % filename
-picnumber = xyz['PIC']
+pic_number = xyz['PIC']
 #
 #Buying postage API
 #
@@ -132,7 +132,7 @@ parse_response(response, calculate_postage_request.namespace)
 #Refund Request API
 #
 refund_request = RefundRequestAPI(
-                               picnumber=picnumber,
+                               pic_number=pic_number,
                                requesterid=REQUESTER_ID,
                                accountid=ACCOUNT_ID,
                                passphrase=PASSPHRASE,
@@ -147,7 +147,7 @@ print refund_request.to_xml()
 #SCAN Request API
 #
 scan_request = SCANFormAPI(
-                               picnumber=picnumber,
+                               pic_number=pic_number,
                                requesterid=REQUESTER_ID,
                                accountid=ACCOUNT_ID,
                                passphrase=PASSPHRASE,
