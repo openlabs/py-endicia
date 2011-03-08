@@ -129,7 +129,6 @@ class APIBaseClass(object):
         Sets flags if any
         """
         xml_result = etree.fromstring(response)
-        
         self.flags['Status'] = ETXPath(
             '//%sStatus' % self.namespace
             )(xml_result)[0].text
@@ -1256,6 +1255,130 @@ class AccountStatusAPI(APIBaseClass):
         Sends the request to the server
         """
         response = self.request({'accountStatusRequestXML':self.to_xml()})
+        if self.success:
+            return response
+        else:
+            raise RequestError(self.error)
+
+
+class RefundRequestAPI(APIBaseClass):
+    "To cancel a shipment and request refund for it"
+    def __init__(self, 
+                 picnumber,
+                 #production_url,
+                 **kwargs):
+        '''
+        :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
+        :param passphrase: (Text, 64) : Pass Phrase for the Endicia postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
+
+                     No - Use Real Postage
+        :param pic_number: (Numeric, 30) : Package PIC Number (Tracking
+Number)
+        :param production_url: RefundRequest requires a separate production URL
+            which is sent to the shipper in a separate 'WELCOME' mail by Endicia
+        '''
+        super(RefundRequestAPI, self).__init__(**kwargs)
+
+        self.picnumber = picnumber
+        self.namespace = '{' + self.base_namespace + 'LabelService}'
+        #self.url = self.base_url + \
+         #           "LabelService/EwsLabelService.asmx"
+        #self.url = self.production_url
+        self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
+
+    def to_xml(self, as_string=True):
+        """
+        Convert the data to XML
+        """
+        refundrequest = etree.Element("RefundRequest")
+
+        transform_to_xml(refundrequest,
+                         self.accountid, 'AccountID')
+        transform_to_xml(refundrequest,
+                         self.passphrase, 'PassPhrase')
+        transform_to_xml(refundrequest,
+                         self.test, 'Test')
+
+        transform_to_xml(refundrequest,
+                         [
+                          Element('PICNumber', self.picnumber),
+                          ],
+                         'RefundList')
+        if as_string:
+            return etree.tostring(refundrequest, pretty_print=True)
+        else:
+            return refundrequest
+
+    def send_request(self):
+        """
+        Sends the request to the server
+        """
+        response = self.request({
+            'method': 'RefundRequest', 
+            'XMLInput':self.to_xml()})
+        if self.success:
+            return response
+        else:
+            raise RequestError(self.error)
+
+
+class SCANFormAPI(APIBaseClass):
+    "To allow usage of SCAN service"
+    def __init__(self, 
+                 picnumber,
+                 #production_url,
+                 **kwargs):
+        '''
+        :param accountid: (Numeric, 6) : Account ID for the Endicia postage account.
+        :param passphrase: (Text, 64) : Pass Phrase for the Endicia postage account.
+        :param test: Yes - Use Sample Postage for testing (Default)
+
+                     No - Use Real Postage
+        :param pic_number: (Numeric, 30) : Package PIC Number (Tracking
+Number)
+        :param production_url: RefundRequest requires a separate production URL
+            which is sent to the shipper in a separate 'WELCOME' mail by Endicia
+        '''
+        super(SCANFormAPI, self).__init__(**kwargs)
+
+        self.picnumber = picnumber
+        self.namespace = '{' + self.base_namespace + 'LabelService}'
+        #self.url = self.base_url + \
+         #           "LabelService/EwsLabelService.asmx"
+        #self.url = self.production_url
+        self.url = 'https://www.endicia.com/ELS/ELSServices.cfc?wsdl'
+
+    def to_xml(self, as_string=True):
+        """
+        Convert the data to XML
+        """
+        scanrequest = etree.Element("SCANRequest")
+
+        transform_to_xml(scanrequest,
+                         self.accountid, 'AccountID')
+        transform_to_xml(scanrequest,
+                         self.passphrase, 'PassPhrase')
+        transform_to_xml(scanrequest,
+                         self.test, 'Test')
+
+        transform_to_xml(scanrequest,
+                         [
+                          Element('PICNumber', self.picnumber),
+                          ],
+                         'SCANList')
+        if as_string:
+            return etree.tostring(scanrequest, pretty_print=True)
+        else:
+            return scanrequest
+
+    def send_request(self):
+        """
+        Sends the request to the server
+        """
+        response = self.request({
+            'method': 'SCANRequest', 
+            'XMLInput':self.to_xml()})
         if self.success:
             return response
         else:

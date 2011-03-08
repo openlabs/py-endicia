@@ -1,8 +1,10 @@
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, LabelRequest, \
-                    FromAddress, ToAddress, CalculatingPostageAPI, Element
+                    FromAddress, ToAddress, CalculatingPostageAPI, \
+                    RefundRequestAPI, SCANFormAPI, Element
 from endicia.exceptions import RequestError
-from endicia.tools import parse_response
+from endicia.tools import parse_response, parse_images
+import base64
 
 REQUESTER_ID = 123456
 ACCOUNT_ID = 123456
@@ -73,8 +75,13 @@ shipping_label_api.add_data({'customsinfo':[
 ]})
 print shipping_label_api.to_xml()
 response = shipping_label_api.send_request()
-parse_response(response, shipping_label_api.namespace)
-
+xyz = parse_response(response, shipping_label_api.namespace)
+filename = '/tmp/' + xyz['PIC'] + '.png'
+f = open(filename, 'wb')
+f.write(base64.decodestring(xyz['Base64LabelImage']))
+f.close()
+print "New Label at: %s" % filename
+picnumber = xyz['PIC']
 #
 #Buying postage API
 #
@@ -120,3 +127,32 @@ calculate_postage_request = CalculatingPostageAPI(
 calculate_postage_request.to_xml()
 response = calculate_postage_request.send_request()
 parse_response(response, calculate_postage_request.namespace)
+
+#
+#Refund Request API
+#
+refund_request = RefundRequestAPI(
+                               picnumber=picnumber,
+                               requesterid=REQUESTER_ID,
+                               accountid=ACCOUNT_ID,
+                               passphrase=PASSPHRASE,
+                               test='Y',                                    
+                            )
+print refund_request.to_xml()
+#response = refund_request.send_request()
+#print parse_response(response, refund_request.namespace)
+
+
+#
+#SCAN Request API
+#
+scan_request = SCANFormAPI(
+                               picnumber=picnumber,
+                               requesterid=REQUESTER_ID,
+                               accountid=ACCOUNT_ID,
+                               passphrase=PASSPHRASE,
+                               test='Y',                                    
+                            )
+print scan_request.to_xml()
+response = scan_request.send_request()
+print parse_response(response, scan_request.namespace)
