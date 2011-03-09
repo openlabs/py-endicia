@@ -139,8 +139,8 @@ refund_request = RefundRequestAPI(
                                test='Y',                                    
                             )
 print refund_request.to_xml()
-#response = refund_request.send_request()
-#print parse_response(response, refund_request.namespace)
+response = refund_request.send_request()
+print parse_response(response, refund_request.namespace)
 
 
 #

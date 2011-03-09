@@ -129,12 +129,18 @@ class APIBaseClass(object):
         Sets flags if any
         """
         xml_result = etree.fromstring(response)
-        self.flags['Status'] = ETXPath(
-            '//%sStatus' % self.namespace
-            )(xml_result)[0].text
-        error_message = ETXPath(
-            '//%sErrorMessage' % self.namespace
-            )(xml_result)
+        if self.namespace:
+            self.flags['Status'] = ETXPath(
+                '//%sStatus' % self.namespace
+                )(xml_result)[0].text
+            error_message = ETXPath(
+                '//%sErrorMessage' % self.namespace
+                )(xml_result)
+        else:
+            error_message = ETXPath(
+                '//%sErrorMsg' % self.namespace
+                )(xml_result)
+            self.flags['Status'] = 0
         self.flags['ErrorMessage'] = error_message and \
             error_message[0].text or None
         self.response = xml_result
@@ -1281,7 +1287,7 @@ Number)
         super(RefundRequestAPI, self).__init__(**kwargs)
 
         self.pic_number = pic_number
-        self.namespace = '{' + self.base_namespace + 'LabelService}'
+        self.namespace = ''
         if production_url:
             self.url = self.production_url
         else:
@@ -1343,7 +1349,7 @@ Number)
         super(SCANFormAPI, self).__init__(**kwargs)
 
         self.pic_number = pic_number
-        self.namespace = '{' + self.base_namespace + 'LabelService}'
+        self.namespace = ''
         if production_url:
             self.url = self.production_url
         else:
