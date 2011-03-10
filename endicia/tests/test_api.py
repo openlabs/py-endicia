@@ -1,7 +1,7 @@
 '''
 Created on 28 Jul 2010
 
-@author: Sharoon Thomas, Open Labs Business Solutions
+@author: Openlabs Technologies & Consulting (P) Ltd.
 '''
 import unittest
 from lxml import etree
@@ -9,7 +9,8 @@ import base64
 from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     ChangingPassPhraseAPI, Element, \
                     LabelRequest, FromAddress, ToAddress, \
-                    CalculatingPostageAPI, AccountStatusAPI
+                    CalculatingPostageAPI, AccountStatusAPI, \
+                    RefundRequestAPI, SCANFormAPI
                     
 from endicia.exceptions import RequestError
 from endicia.tools import parse_response, transform_to_xml
@@ -17,6 +18,7 @@ from endicia.tools import parse_response, transform_to_xml
 REQUESTER_ID = 123456
 ACCOUNT_ID = 123456
 PASSPHRASE = "PassPhrase"
+pic_number = ''                     
 
 class TestAPI(unittest.TestCase):
 
@@ -90,6 +92,7 @@ class TestAPI(unittest.TestCase):
         print shipping_label_api.to_xml()
         assert shipping_label_api.success == True
         res = parse_response(response, shipping_label_api.namespace)
+        pic_number = res['TrackingNumber']
         filename = '/tmp/' + res['TrackingNumber'] + '.gif'
         f = open(filename, 'wb')
         f.write(base64.decodestring(res['Base64LabelImage']))
@@ -149,6 +152,30 @@ class TestAPI(unittest.TestCase):
         print get_account_status_request_api.to_xml()
         response = get_account_status_request_api.send_request()
         print parse_response(response, get_account_status_request_api.namespace)
+        
+    def test0050_refund_request(self):
+        refund_request = RefundRequestAPI(
+                               pic_number=pic_number,
+                               requesterid=REQUESTER_ID,
+                               accountid=ACCOUNT_ID,
+                               passphrase=PASSPHRASE,
+                               test='Y',                                    
+                            )
+        print refund_request.to_xml()
+        response = refund_request.send_request()
+        print parse_response(response, refund_request.namespace)
+        
+    def test0060_scan_form(self):
+        scan_request = SCANFormAPI(
+                               pic_number=pic_number,
+                               requesterid=REQUESTER_ID,
+                               accountid=ACCOUNT_ID,
+                               passphrase=PASSPHRASE,
+                               test='Y',                                    
+                            )
+        print scan_request.to_xml()
+        response = scan_request.send_request()
+        print parse_response(response, scan_request.namespace)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

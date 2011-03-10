@@ -1,5 +1,5 @@
 # 
-# (c) Copyright 2010: Sharoon Thomas, Open Labs Business Solutions
+# (c) Copyright 2010-2011: Openlabs Technologies & Consulting (P) Ltd.
 # 
 # This file is part of py-endicia.
 # 
