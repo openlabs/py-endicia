@@ -1,16 +1,20 @@
 ""
-from lxml import etree
+from lxml import etree, objectify
 
 def parse_response(response, namespace=''):
     """
+    Depreciated
     Parses XML response as string to readable keys and values
     in a dictionary
     """
-    response_dict = {}
-    xml_result = etree.fromstring(response)
-    for element in xml_result.iter():
-        response_dict[element.tag.replace(namespace, '')] = element.text
-    return response_dict
+    import warnings
+    warnings.warn("Depreciated API, use objectify_response() instead", 
+        DeprecationWarning)
+    
+def objectify_response(response):
+    """Parses XML response as string to an object
+    """
+    return objectify.fromstring(response)
 
 def parse_images(response, namespace=''):
     """

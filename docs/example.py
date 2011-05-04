@@ -3,7 +3,7 @@ from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     FromAddress, ToAddress, CalculatingPostageAPI, \
                     RefundRequestAPI, SCANFormAPI, Element
 from endicia.exceptions import RequestError
-from endicia.tools import parse_response, parse_images
+from endicia.tools import objectify_response, parse_images, parse_response
 import base64
 
 REQUESTER_ID = 123456
@@ -50,7 +50,7 @@ shipping_label_api.add_data(to_address.data)
 print shipping_label_api.to_xml()
 
 response = shipping_label_api.send_request()
-parse_response(response, shipping_label_api.namespace)
+objectify_response(response)
 """
 A more complicated example
 """
@@ -75,10 +75,10 @@ shipping_label_api.add_data({'customsinfo':[
 ]})
 print shipping_label_api.to_xml()
 response = shipping_label_api.send_request()
-xyz = parse_response(response, shipping_label_api.namespace)
-filename = '/tmp/' + xyz['PIC'] + '.png'
+xyz = objectify_response(response)
+filename = '/tmp/' + str(xyz.PIC) + '.png'
 f = open(filename, 'wb')
-f.write(base64.decodestring(xyz['Base64LabelImage']))
+f.write(base64.decodestring(str(xyz.Base64LabelImage)))
 f.close()
 print "New Label at: %s" % filename
 pic_number = xyz['PIC']
@@ -95,7 +95,7 @@ recredit_request_api = BuyingPostageAPI(
                                    )
 recredit_request_api.to_xml()
 response = recredit_request_api.send_request()
-parse_response(response, recredit_request_api.namespace)
+objectify_response(response)
 #
 #Change passphrase API
 #
@@ -109,7 +109,7 @@ change_pp_api = ChangingPassPhraseAPI(
                                       )
 change_pp_api.to_xml()
 response = change_pp_api.send_request()
-parse_response(response, change_pp_api.namespace)
+objectify_response(response)
 #
 #Calculate postage
 #
@@ -124,9 +124,10 @@ calculate_postage_request = CalculatingPostageAPI(
                                passphrase=PASSPHRASE,
                                test=True,                                    
                             )
-calculate_postage_request.to_xml()
+print calculate_postage_request.to_xml()
 response = calculate_postage_request.send_request()
-parse_response(response, calculate_postage_request.namespace)
+print response
+print 'calculate', objectify_response(response).PostagePrice.get('TotalAmount')
 
 #
 #Refund Request API
@@ -140,7 +141,7 @@ refund_request = RefundRequestAPI(
                             )
 print refund_request.to_xml()
 response = refund_request.send_request()
-print parse_response(response, refund_request.namespace)
+print objectify_response(response)
 
 
 #
@@ -155,4 +156,4 @@ scan_request = SCANFormAPI(
                             )
 print scan_request.to_xml()
 response = scan_request.send_request()
-print parse_response(response, scan_request.namespace)
+print objectify_response(response)

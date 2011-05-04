@@ -1,5 +1,6 @@
 # 
-# (c) Copyright 2010-2011: Openlabs Technologies & Consulting (P) Ltd.
+# (c) Copyright 2010: Openlabs Business Solutions
+#               2011: Openlabs Technologies & Consulting (P) Ltd.
 # 
 # This file is part of py-endicia.
 # 

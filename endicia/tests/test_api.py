@@ -1,7 +1,8 @@
 '''
 Created on 28 Jul 2010
 
-@author: Openlabs Technologies & Consulting (P) Ltd.
+(c) 2010: Openlabs Business Solutions
+(c) 2011: Openlabs Technologies & Consulting (P) Ltd.
 '''
 import unittest
 from lxml import etree
@@ -13,7 +14,7 @@ from endicia import ShippingLabelAPI, BuyingPostageAPI, \
                     RefundRequestAPI, SCANFormAPI
                     
 from endicia.exceptions import RequestError
-from endicia.tools import parse_response, transform_to_xml
+from endicia.tools import objectify_response, transform_to_xml
 
 REQUESTER_ID = 123456
 ACCOUNT_ID = 123456
@@ -91,11 +92,11 @@ class TestAPI(unittest.TestCase):
         response = shipping_label_api.send_request()
         print shipping_label_api.to_xml()
         assert shipping_label_api.success == True
-        res = parse_response(response, shipping_label_api.namespace)
-        pic_number = res['TrackingNumber']
-        filename = '/tmp/' + res['TrackingNumber'] + '.gif'
+        res = objectify_response(response)
+        pic_number = res.TrackingNumber
+        filename = '/tmp/' + str(res.TrackingNumber) + '.gif'
         f = open(filename, 'wb')
-        f.write(base64.decodestring(res['Base64LabelImage']))
+        f.write(base64.decodestring(str(res.Base64LabelImage)))
         f.close()
         print "New Label at: %s" % filename
     
@@ -110,7 +111,7 @@ class TestAPI(unittest.TestCase):
                                )
         print recredit_request_api.to_xml()
         response = recredit_request_api.send_request()
-        print parse_response(response, recredit_request_api.namespace)
+        print objectify_response(response)
     
     def test0020_change_passphrase_request(self):
         change_passphrase_request_api = ChangingPassPhraseAPI(
@@ -123,7 +124,7 @@ class TestAPI(unittest.TestCase):
                                )
         print change_passphrase_request_api.to_xml()
         response = change_passphrase_request_api.send_request()
-        print parse_response(response, change_passphrase_request_api.namespace)
+        print objectify_response(response)
     
     def test0030_calculating_postage_request(self):
         calculate_postage_request = CalculatingPostageAPI(
@@ -139,7 +140,7 @@ class TestAPI(unittest.TestCase):
                                     )
         print calculate_postage_request.to_xml()
         response = calculate_postage_request.send_request()
-        print parse_response(response, calculate_postage_request.namespace)
+        print objectify_response(response)
     
     def test0040_account_status_request(self):
         get_account_status_request_api = AccountStatusAPI(
@@ -151,7 +152,7 @@ class TestAPI(unittest.TestCase):
                                )
         print get_account_status_request_api.to_xml()
         response = get_account_status_request_api.send_request()
-        print parse_response(response, get_account_status_request_api.namespace)
+        print objectify_response(response)
         
     def test0050_refund_request(self):
         refund_request = RefundRequestAPI(
@@ -163,7 +164,7 @@ class TestAPI(unittest.TestCase):
                             )
         print refund_request.to_xml()
         response = refund_request.send_request()
-        print parse_response(response, refund_request.namespace)
+        print objectify_response(response)
         
     def test0060_scan_form(self):
         scan_request = SCANFormAPI(
@@ -175,7 +176,7 @@ class TestAPI(unittest.TestCase):
                             )
         print scan_request.to_xml()
         response = scan_request.send_request()
-        print parse_response(response, scan_request.namespace)
+        print objectify_response(response)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
