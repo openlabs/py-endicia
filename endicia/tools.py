@@ -10,6 +10,12 @@ def parse_response(response, namespace=''):
     import warnings
     warnings.warn("Depreciated API, use objectify_response() instead", 
         DeprecationWarning)
+
+    response_dict = {}
+    xml_result = etree.fromstring(response)
+    for element in xml_result.iter():
+        response_dict[element.tag.replace(namespace, '')] = element.text
+    return response_dict
     
 def objectify_response(response):
     """Parses XML response as string to an object
