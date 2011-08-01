@@ -38,6 +38,20 @@ def parse_images(response, namespace=''):
             images.append(image.text)
     return images
 
+def get_images(xml_object):
+    images = []
+    try:
+        _ = xml_object.Label
+    except AttributeError:
+        # Only one image so partnumber = 1
+        images = [(1, xml_object.Base64LabelImage.pyval)]
+    else:
+        # Adding partnumber with each image
+        images = [(image.get("PartNumber"), image.pyval) \
+            for image in xml_object.Label.Image]
+    finally:
+        return images
+
 def transform_to_xml(root, data, name=None):
     """
     Adds data to root XML element
