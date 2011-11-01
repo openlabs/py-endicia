@@ -34,7 +34,7 @@ def parse_images(response, namespace=''):
         images.extend([l.text for l in label.getchildren()])
     else:
         image = xml_result.find('%sBase64LabelImage' % namespace)
-        if image:
+        if image.text:
             images.append(image.text)
     return images
 
