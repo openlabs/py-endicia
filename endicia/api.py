@@ -160,12 +160,26 @@ class ShippingLabelAPI(APIBaseClass):
         :param partner_transaction_id: *(Text, 25)* A unique identifier for the
                                     partner's end-user's transaction such as
                                     invoice, transaction number, etc.
-        :param mail_class:  In Domestic, use:
-                            Express, First, LibraryMail, MediaMail, ParcelPost,
-                            ParcelSelect, Priority, StandardMail
+        :param mail_class:  Possible values for this field are:
 
-                            For International, use: ExpressMailInternational,
-                            FirstClassMailInternational, PriorityMailInternational
+                            **Domestic Options**
+
+                            * Express: Express Mail
+                            * First: First-Class Package Service and First-Class Mail Parcel
+                            * LibraryMail: Library Mail
+                            * MediaMail: Media Mail
+                            * StandardPost: Standard Post (formerly called Parcel Post)
+                            * ParcelSelect: Parcel Select or Parcel Select Lightweight
+                            * Priority: Priority Mail
+                            * CriticalMail: CriticalMail
+
+                            **International Options**
+
+                            * ExpressMailInternational
+                            * FirstClassMailInternational
+                            * FirstClassPackageInternationalService
+                            * PriorityMailInternationalGXG (For future use)
+
         :param requesterid: *(Text, 50)* Requester ID (also called Partner ID)
                             uniquely identifies the system making the request.
                             Endicia assigns this ID.
@@ -763,6 +777,10 @@ class ShippingLabelAPI(APIBaseClass):
                 continue
             value = getattr(self, element.lower())
             if value:
+                if type(value) == dict and not any(value.values()):
+                    # If the element is a dictionary and there are
+                    # no valid values, then dont add it to the XML
+                    continue
                 transform_to_xml(labelrequest, value, element)
         if as_string:
             return etree.tostring(labelrequest, pretty_print=True)
