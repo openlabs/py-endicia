@@ -1,9 +1,0 @@
-Additional Parameters
-*********************
-
-.. toctree::
-   :maxdepth:2
-
-   attri_shippingAPI.rst
-
-   attri_calcpostageAPI.rst
