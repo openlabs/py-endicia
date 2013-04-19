@@ -1,6 +1,7 @@
 ""
 from lxml import etree, objectify
 
+
 def parse_response(response, namespace=''):
     """
     Depreciated
@@ -8,23 +9,25 @@ def parse_response(response, namespace=''):
     in a dictionary
     """
     import warnings
-    warnings.warn("Depreciated API, use objectify_response() instead", 
-        DeprecationWarning)
+    warnings.warn("Depreciated API, use objectify_response() instead",
+                  DeprecationWarning)
 
     response_dict = {}
     xml_result = etree.fromstring(response)
     for element in xml_result.iter():
         response_dict[element.tag.replace(namespace, '')] = element.text
     return response_dict
-    
+
+
 def objectify_response(response):
     """Parses XML response as string to an object
     """
     return objectify.fromstring(response)
 
+
 def parse_images(response, namespace=''):
     """
-    A special parser for use only with the shipping response to get 
+    A special parser for use only with the shipping response to get
     the images alone
     """
     images = []
@@ -38,6 +41,7 @@ def parse_images(response, namespace=''):
             images.append(image.text)
     return images
 
+
 def get_images(xml_object):
     images = []
     try:
@@ -47,10 +51,11 @@ def get_images(xml_object):
         images = [(1, xml_object.Base64LabelImage.pyval)]
     else:
         # Adding partnumber with each image
-        images = [(image.get("PartNumber"), image.pyval) \
-            for image in xml_object.Label.Image]
+        images = [(image.get("PartNumber"), image.pyval)
+                  for image in xml_object.Label.Image]
     finally:
         return images
+
 
 def transform_to_xml(root, data, name=None):
     """
@@ -88,7 +93,7 @@ def transform_to_xml(root, data, name=None):
                  >>> transform_to_xml(root, [name, age, location])
                      <Element root at 121b1e0>
                  >>> etree.tostring(root)
-                 
+
                 The XML is ::
 
                     <root attribute="attribute_value">
@@ -112,7 +117,7 @@ def transform_to_xml(root, data, name=None):
             return root
         elif type(data) == list:
             for sub_element_data in data:
-                sub_element = etree.SubElement(root, 
+                sub_element = etree.SubElement(root,
                                                sub_element_data.tag)
                 transform_to_xml(sub_element, sub_element_data.data)
             return root
@@ -121,4 +126,4 @@ def transform_to_xml(root, data, name=None):
     else:
         sub_element = etree.SubElement(root, name)
         transform_to_xml(sub_element, data)
-        return sub_element 
+        return sub_element

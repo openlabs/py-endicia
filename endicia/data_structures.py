@@ -17,6 +17,7 @@ from collections import namedtuple
 
 Element = namedtuple('Element', 'tag data')
 
+
 class BaseStruct(object):
     """
     Base data structure
@@ -26,7 +27,7 @@ class BaseStruct(object):
         Initialise
         """
         self.keys = None
-        
+
     @property
     def data(self):
         _data = {}
@@ -46,18 +47,18 @@ class FromAddress(BaseStruct):
         """
         super(FromAddress, self).__init__()
         self.keys = [
-                     'FromName',
-                     'FromCompany',
-                     'ReturnAddress1',
-                     'ReturnAddress2',
-                     'ReturnAddress3',
-                     'ReturnAddress4',
-                     'FromCity',
-                     'FromState',
-                     'FromPostalCode',
-                     'FromPhone',
-                     'FromEMail'
-                     ]
+            'FromName',
+            'FromCompany',
+            'ReturnAddress1',
+            'ReturnAddress2',
+            'ReturnAddress3',
+            'ReturnAddress4',
+            'FromCity',
+            'FromState',
+            'FromPostalCode',
+            'FromPhone',
+            'FromEMail'
+        ]
         self.__dict__.update(dict.fromkeys(self.keys))
         self.__dict__.update(kwargs)
 
@@ -72,20 +73,20 @@ class ToAddress(BaseStruct):
         """
         super(ToAddress, self).__init__()
         self.keys = [
-                     'ToName',
-                     'ToCompany',
-                     'ToAddress1',
-                     'ToAddress2',
-                     'ToAddress3',
-                     'ToAddress4',
-                     'ToCity',
-                     'ToState',
-                     'ToPostalCode',
-                     'ToCountry',
-                     'ToCountryCode',
-                     'ToPhone',
-                     'ToEMail'
-                     ]
+            'ToName',
+            'ToCompany',
+            'ToAddress1',
+            'ToAddress2',
+            'ToAddress3',
+            'ToAddress4',
+            'ToCity',
+            'ToState',
+            'ToPostalCode',
+            'ToCountry',
+            'ToCountryCode',
+            'ToPhone',
+            'ToEMail'
+        ]
         self.__dict__.update(dict.fromkeys(self.keys))
         self.__dict__.update(kwargs)
 
@@ -93,25 +94,25 @@ class ToAddress(BaseStruct):
 class LabelRequest(BaseStruct):
     """
     Base structure for label
-    """ 
+    """
     def __init__(self, **kwargs):
         super(LabelRequest, self).__init__()
         self.keys = [
-                     'ImageRotation', 
-                     'ImageResolution', 
-                     'LabelType', 
-                     'LabelSubtype', 
-                     'ImageFormat', 
-                     'Test', 
-                     'LabelSize'
-                     ]
+            'ImageRotation',
+            'ImageResolution',
+            'LabelType',
+            'LabelSubtype',
+            'ImageFormat',
+            'Test',
+            'LabelSize'
+        ]
         self.__dict__.update({
-                            'Test':'YES',
-                            # 'LabelType':'Default', 
-                            # 'LabelSubtype':'None',
-                            # 'LabelSize':'4x6',
-                            # 'ImageFormat':'PNG',
-                            # 'ImageResolution':'300',
-                            # 'ImageRotation':'None',
-                            })
+            'Test': 'YES',
+            # 'LabelType':'Default',
+            # 'LabelSubtype':'None',
+            # 'LabelSize':'4x6',
+            # 'ImageFormat':'PNG',
+            # 'ImageResolution':'300',
+            # 'ImageRotation':'None',
+        })
         self.__dict__.update(kwargs)
