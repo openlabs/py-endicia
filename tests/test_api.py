@@ -185,7 +185,7 @@ def suite():
     '''
     Test Suite
     '''
-    suite = unittest.suite.TestSuite()
+    suite = unittest.TestSuite()
     suite.addTests(
         unittest.TestLoader().loadTestsFromTestCase(TestAPI)
     )
