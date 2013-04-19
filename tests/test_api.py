@@ -181,6 +181,16 @@ class TestAPI(unittest.TestCase):
         print objectify_response(response)
 
 
-if __name__ == "__main__":
-    # import sys;sys.argv = ['', 'Test.testName']
-    unittest.main()
+def suite():
+    '''
+    Test Suite
+    '''
+    suite = unittest.suite.TestSuite()
+    suite.addTests(
+        unittest.TestLoader().loadTestsFromTestCase(TestAPI)
+    )
+    return suite
+
+
+if __name__ == '__main__':
+    unittest.TextTestRunner(verbosity=2).run(suite())

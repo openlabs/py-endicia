@@ -16,6 +16,7 @@ REQUESTER_ID = 123456
 ACCOUNT_ID = 123456
 PASSPHRASE = "PassPhrase"
 
+
 class BaseTestCase(unittest.TestCase):
     """
     A base test case to support the creation of supporting documents
@@ -196,5 +197,16 @@ class TestInternationalShipping(BaseTestCase):
         print "New Label at: %s" % filename
 
 
-if __name__ == "__main__":
-    unittest.main()
+def suite():
+    '''
+    Test Suite
+    '''
+    suite = unittest.suite.TestSuite()
+    suite.addTests(
+        unittest.TestLoader().loadTestsFromTestCase(TestInternationalShipping)
+    )
+    return suite
+
+
+if __name__ == '__main__':
+    unittest.TextTestRunner(verbosity=2).run(suite())
