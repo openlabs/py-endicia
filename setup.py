@@ -2,15 +2,15 @@
 # This file is part of py-endicia.  The COPYRIGHT file at the top level of
 # this repository contains the full copyright notices and license terms.
 from setuptools import setup, find_packages
-import endicia
 
-major_version, minor_version, _ = endicia.__version__.split('.', 2)
-major_version = int(major_version)
-minor_version = int(minor_version)
+version = {}
+with open('endicia/version.py') as f:
+    exec(f.read(), version)
+
 
 setup(
     name='endicia',
-    version=endicia.__version__,
+    version=version['__version__'],
     description='endicia API for Python',
     author='Open Labs Business Solutions',
     maintainer="Open Labs Business Solutions",
