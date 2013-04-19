@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-#This file is part of py-endicia.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
+# This file is part of py-endicia.  The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
 from setuptools import setup, find_packages
 import endicia
 
@@ -17,8 +17,6 @@ setup(
     maintainer_email="info@openlabs.co.in",
     author_email='info@openlabs.co.in',
     url='http://www.openlabs.co.in/',
-    download_url="http://downloads.openlabs.co.in/" + \
-            endicia.__version__.rsplit('.', 1)[0] + '/',
     packages=find_packages(),
     classifiers=[
         'Development Status :: 4 - Beta',

@@ -9,9 +9,9 @@ Version 5.0 (Build 3826)
 (c) 2011: Openlabs Technologies & Consulting (P) Ltd.
 """
 from api import ShippingLabelAPI, BuyingPostageAPI, \
-                ChangingPassPhraseAPI, CalculatingPostageAPI, \
-                AccountStatusAPI, RefundRequestAPI, SCANFormAPI
-                
+    ChangingPassPhraseAPI, CalculatingPostageAPI, \
+    AccountStatusAPI, RefundRequestAPI, SCANFormAPI
+
 from data_structures import FromAddress, ToAddress, \
     LabelRequest, Element
 
