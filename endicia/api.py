@@ -1272,7 +1272,7 @@ class AccountStatusAPI(APIBaseClass):
 class RefundRequestAPI(APIBaseClass):
     "To cancel a shipment and request refund for it"
     def __init__(self,
-                 pic_number,
+                 pic_numbers,
                  production_url="",
                  **kwargs):
         '''
@@ -1281,14 +1281,14 @@ class RefundRequestAPI(APIBaseClass):
         :param test: Yes - Use Sample Postage for testing (Default)
 
                      No - Use Real Postage
-        :param pic_number: (Numeric, 30) : Package PIC Number (Tracking
-Number)
+        :param pic_numbers: [(Numeric, 30)] : List of Package PIC Number
+                    (Tracking Number)
         :param production_url: RefundRequest requires a separate production URL
             which is sent to the shipper in a separate 'WELCOME' mail by Endicia
         '''
         super(RefundRequestAPI, self).__init__(**kwargs)
 
-        self.pic_number = pic_number
+        self.pic_numbers = pic_numbers
         self.namespace = ''
         if production_url:
             self.url = self.production_url
@@ -1308,11 +1308,10 @@ Number)
         transform_to_xml(refund_request,
                          self.test, 'Test')
 
-        transform_to_xml(refund_request,
-                         [
-                          Element('PICNumber', self.pic_number),
-                          ],
-                         'RefundList')
+        transform_to_xml(refund_request, [
+            Element('PICNumber', pic_number) for pic_number in self.pic_numbers
+        ], 'RefundList')
+
         if as_string:
             return etree.tostring(refund_request, pretty_print=True)
         else:
@@ -1334,7 +1333,7 @@ Number)
 class SCANFormAPI(APIBaseClass):
     "To allow usage of SCAN service"
     def __init__(self,
-                 pic_number,
+                 pic_numbers,
                  production_url="",
                  **kwargs):
         '''
@@ -1343,14 +1342,14 @@ class SCANFormAPI(APIBaseClass):
         :param test: Yes - Use Sample Postage for testing (Default)
 
                      No - Use Real Postage
-        :param pic_number: (Numeric, 30) : Package PIC Number (Tracking
-Number)
+        :param pic_numbers: [(Numeric, 30)] : List of Package PIC Number
+                    (Tracking Number)
         :param production_url: RefundRequest requires a separate production URL
             which is sent to the shipper in a separate 'WELCOME' mail by Endicia
         '''
         super(SCANFormAPI, self).__init__(**kwargs)
 
-        self.pic_number = pic_number
+        self.pic_numbers = pic_numbers
         self.namespace = ''
         if production_url:
             self.url = self.production_url
@@ -1370,11 +1369,9 @@ Number)
         transform_to_xml(scan_request,
                          self.test, 'Test')
 
-        transform_to_xml(scan_request,
-                         [
-                          Element('PICNumber', self.pic_number),
-                          ],
-                         'SCANList')
+        transform_to_xml(scan_request, [
+            Element('PICNumber', pic_number) for pic_number in self.pic_numbers
+        ], 'SCANList')
         if as_string:
             return etree.tostring(scan_request, pretty_print=True)
         else:
