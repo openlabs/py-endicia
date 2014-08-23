@@ -158,7 +158,7 @@ class TestAPI(unittest.TestCase):
 
     def test0050_refund_request(self):
         refund_request = RefundRequestAPI(
-            pic_number=pic_number,
+            pic_numbers=[pic_number],
             requesterid=REQUESTER_ID,
             accountid=ACCOUNT_ID,
             passphrase=PASSPHRASE,
@@ -170,7 +170,7 @@ class TestAPI(unittest.TestCase):
 
     def test0060_scan_form(self):
         scan_request = SCANFormAPI(
-            pic_number=pic_number,
+            pic_numbers=[pic_number],
             requesterid=REQUESTER_ID,
             accountid=ACCOUNT_ID,
             passphrase=PASSPHRASE,
