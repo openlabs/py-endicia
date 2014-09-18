@@ -11,7 +11,7 @@ from endicia import ShippingLabelAPI, BuyingPostageAPI, \
     ChangingPassPhraseAPI, Element, \
     LabelRequest, FromAddress, ToAddress, \
     CalculatingPostageAPI, AccountStatusAPI, \
-    RefundRequestAPI, SCANFormAPI
+    RefundRequestAPI, SCANFormAPI, PostageRatesAPI
 
 from endicia.exceptions import RequestError
 from endicia.tools import objectify_response, transform_to_xml
@@ -143,6 +143,24 @@ class TestAPI(unittest.TestCase):
         print calculate_postage_request.to_xml()
         response = calculate_postage_request.send_request()
         print objectify_response(response)
+
+    def test0035_calculating_postage_rates_request(self):
+        calculate_postage_request = PostageRatesAPI(
+            mailclass='Domestic',
+            weightoz=10.00,
+            from_postal_code="83702",
+            to_postal_code="84301",
+            to_country_code="US",
+            requesterid=REQUESTER_ID,
+            accountid=ACCOUNT_ID,
+            passphrase=PASSPHRASE,
+            test=True,
+        )
+        print calculate_postage_request.to_xml()
+        response = calculate_postage_request.send_request()
+        rv_obj = objectify_response(response)
+        print rv_obj
+        self.assertTrue(len(rv_obj.PostagePrice) > 1)
 
     def test0040_account_status_request(self):
         get_account_status_request_api = AccountStatusAPI(
