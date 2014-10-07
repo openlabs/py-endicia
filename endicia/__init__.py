@@ -8,7 +8,7 @@
 """
 from api import ShippingLabelAPI, BuyingPostageAPI, \
     ChangingPassPhraseAPI, CalculatingPostageAPI, \
-    AccountStatusAPI, RefundRequestAPI, SCANFormAPI
+    AccountStatusAPI, RefundRequestAPI, SCANFormAPI, PostageRatesAPI
 
 from data_structures import FromAddress, ToAddress, \
     LabelRequest, Element
